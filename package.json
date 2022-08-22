@@ -1,0 +1,43 @@
+{
+  "name": "backend-cohort6",
+  "version": "1.0.0",
+  "description": "ecommerce project",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest --coverage",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nil2022/js-basics.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "sequelize",
+    "mysql",
+    "jest"
+  ],
+  "author": "arpit purwar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nil2022/js-basics/issues"
+  },
+  "homepage": "https://github.com/nil2022/js-basics.git#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.19",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^28.1.3",
+    "supertest": "^6.2.4"
+  }
+}
