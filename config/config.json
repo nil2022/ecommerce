@@ -2,7 +2,7 @@
   "development": {
     "username": "test_2022",
     "password": "Nilanjan@2022",
-    "database": "eCommerce",
+    "database": "ecommerce2022",
     "host": "db4free.net",
     "dialect": "mysql",
     "port": 3306
@@ -15,9 +15,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "test_20222",
-    "password": "2c90c44c",
-    "database": "ecommerce_Nilanjan",
+    "username": "test_2022",
+    "password": "Nilanjan_2022",
+    "database": "ecommerce",
     "host": "db4free.net",
     "dialect": "mysql"
   }
