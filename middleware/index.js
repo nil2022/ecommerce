@@ -1,7 +1,7 @@
 const {checkNameForCategory} = require('./category')
 const { validateProductData } = require('./product')
 const {checkDuplicateUsernameAndEmail, checkRoles} = require('./user')
-const {verifyToken, isAdmin} = require('./authJwt')
+const {verifyToken, isAdmin} = require('./authjwt')
 
 module.exports = {
 	checkNameForCategory,
