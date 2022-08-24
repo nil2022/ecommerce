@@ -17,7 +17,7 @@
   "production": {
     "username": "test_2022",
     "password": "Nilanjan_2022",
-    "database": "ecommerce",
+    "database": "ecommerce2022",
     "host": "db4free.net",
     "dialect": "mysql"
   }
