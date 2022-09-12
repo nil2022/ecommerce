@@ -8,3 +8,8 @@ module.exports = {
 	validateProductData,
 	checkDuplicateUsernameAndEmail, checkRoles, verifyToken, isAdmin
 }
+
+async function foo(add){
+	console.log('I am async func');
+	return Promise.resolve();
+};
