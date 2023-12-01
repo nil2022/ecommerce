@@ -3,12 +3,22 @@ const express = require('express')
 const { Categories, sequelize, Products, Role } = require('./models')
 const {categoryRoutes, productRoutes, authRoutes, cartRoutes} = require('./routes')
 const app = express()
+const logger = require('morgan')
 
 app.use(express.json())
 app.use(authRoutes)
 app.use(categoryRoutes)
 app.use(productRoutes)
 app.use(cartRoutes)
+app.use(logger('dev'))
+
+app.get('/', (req, res) => {
+	// for (const iterator in req) {
+	// 	if(iterator === 'rawHeaders') 
+	// 	console.log(iterator, req[iterator]);
+	// }
+	res.status(200).send('Server is up and running');
+})
 
 app.listen(serverPort, async ()=> {
 	console.log('server is running on this port', serverPort)

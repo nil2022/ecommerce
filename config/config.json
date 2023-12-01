@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "test_2022",
-    "password": "Nilanjan@2022",
+    "username": "root",
+    "password": "",
     "database": "ecommerce2022",
-    "host": "db4free.net",
+    "host": "127.0.0.1",
     "dialect": "mysql",
-    "port": 3306
+    "port": 3307
   },
   "test": {
     "username": "root",

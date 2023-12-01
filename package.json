@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --coverage",
-    "start": "node index.js"
+    "build": "npm install bcryptjs body-parser dotenv express heroku jsonwebtoken mysql2 nodemon sequelize sequelize-cli morgan --save",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -25,14 +27,13 @@
   },
   "homepage": "https://github.com/nil2022/js-basics.git#readme",
   "dependencies": {
-    "-": "^0.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "g": "^2.0.1",
     "heroku": "^7.62.0",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.19",
     "sequelize": "^6.21.3",
