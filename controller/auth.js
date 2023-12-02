@@ -5,7 +5,7 @@ const {User, Cart} = require('../models')
 async function signUp(req,res){
 	const username = req.body.username;
 	const email = req.body.email;
-	const password = bcrypt.hashSync(req.body.password, 8);
+	const password = bcrypt.hashSync(req.body.password, 10);
 
 	try{
 		const user = await User.create({username,email,password})
@@ -47,7 +47,7 @@ async function signIn(req,res){
 			}
 
 			const token = await jwt.sign({id : user.id}, 'helloIamsecretkey', {
-				expiresIn: '1h'
+				expiresIn: '7d'
 			})
 
 			const authorities = [];

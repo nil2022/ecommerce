@@ -38,7 +38,7 @@ async function checkRoles(req,res,next){
 		const findRoleFromDB = await Role.findAll({
 			attributes:['id']
 		});
-
+		
 		if(findRoleFromDB.length > 0){
 			const storeRoles = []
 
@@ -47,11 +47,13 @@ async function checkRoles(req,res,next){
 			}
 			for(let i = 0; i< roles.length;i++){
 				const result = storeRoles.includes(roles[i])
+				
 				if(!result){
 					flag = false
 					break;
 				}
 			}
+			
 			if(flag){
 				next()
 			}else{

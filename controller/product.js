@@ -82,6 +82,9 @@ async function updateProduct(req,res){
 
 }
 
+/**
+ * Deletes a product from the database.
+ */
 async function deleteProduct(req,res){
 	const productId = req.params.id;
 	try{
@@ -97,7 +100,9 @@ async function deleteProduct(req,res){
 
 
 async function filterBasedOnProduct(req,res){
+	/** CHECK CategoryId for crash problem**/
 	const CategoryId = req.query.CategoryId; // ?CategoryId=3
+	/** CHECK name for crash problem**/
 	const name = req.query.name;// ?name=
 	const minCost = req.query.minCost;// ?minCost=450
 	const maxCost = req.query.maxCost;// ?maxCost=350

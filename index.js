@@ -21,14 +21,14 @@ app.get('/', (req, res) => {
 })
 
 app.listen(serverPort, async ()=> {
-	console.log('server is running on this port', serverPort)
+	console.log(`\nServer is running on this port: ${serverPort}\n`)
 	await init()
 })
 
 async function init(){
 	try{
 		await sequelize.sync({force: true})
-
+// raw data to be stored in database
 		const defaultProducts = [
 		{
 		    "description":"Nyka best products",
