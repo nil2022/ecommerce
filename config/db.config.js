@@ -9,11 +9,12 @@ const development = {
         "port": process.env.PG_PORT
 }
 const test = {
-        "username": process.env.PG_USERNAME,
-        "password": process.env.PG_PASSWORD,
-        "database": process.env.PG_DATABASE,
-        "host": process.env.PG_HOST,
-        "dialect": "mysql"
+        "username": "root",
+        "password": "",
+        "database": "test",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "port": "3307"
 }
 const pgElephant = {
         "username": process.env.PG_USERNAME,

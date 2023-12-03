@@ -1,22 +1,19 @@
 const {serverPort} = require('./config/server.config')
 const express = require('express')
-const { Categories, sequelize, Products, Role } = require('./models')
+const { Categories, sequelize, Products, Role, User } = require('./models')
 const {categoryRoutes, productRoutes, authRoutes, cartRoutes} = require('./routes')
 const app = express()
 const logger = require('morgan')
+const bcrypt = require('bcrypt')
 
 app.use(express.json())
 app.use(authRoutes)
 app.use(categoryRoutes)
 app.use(productRoutes)
 app.use(cartRoutes)
-app.use(logger('dev'))
+app.use(logger('short'))
 
 app.get('/', (req, res) => {
-	// for (const iterator in req) {
-	// 	if(iterator === 'rawHeaders') 
-	// 	console.log(iterator, req[iterator]);
-	// }
 	res.status(200).send('Server is up and running');
 })
 
@@ -76,12 +73,22 @@ async function init(){
 			name: 'Admin',
 		}
 		]
+
+		// const defaultUser = [
+		// {
+		// 	username : 'admin',
+		// 	password : bcrypt.hashSync('admin', 10),
+		// 	email : 'admin@admin.com'
+		// }
+		// ]
+		
 		await Categories.bulkCreate(defaultCategories)
 		await Products.bulkCreate(defaultProducts)
 		await Role.bulkCreate(defaultRoles)
+		// await User.bulkCreate(defaultUser)
 	}
 	catch(err){
-		console.log(err)
+		console.log("Error:",err)
 	}
 
 }

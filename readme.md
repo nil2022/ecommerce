@@ -15,7 +15,7 @@ This is an eCommerce app built with Node.js and MySQL/PostgreSQL as the database
 
 The eCommerce app is a web application that allows users to browse and purchase products online. It provides a user-friendly interface for customers to view product listings, add items to their cart, and complete the checkout process.
 
-The app is built with Node.js as the server-side framework and uses MySQL or PostgreSQL as the database management systems. MySQL is used for storing transactional data and user information, while PostgreSQL is used for managing product data and inventory.
+The app is built with Node.js as the server-side framework and uses MySQL or PostgreSQL as the database management systems.
 
 ## Features
 
@@ -26,11 +26,10 @@ The app is built with Node.js as the server-side framework and uses MySQL or Pos
 
 ## Requirements
 
-To run the eCommerce app, you need to have the following software installed:
+To run the eCommerce app, you need to have the following software/database installed:
 
 - Node.js
-- MySQL
-- PostgreSQL
+- MySQL/PostgreSQL
 
 ## Installation
 
@@ -46,8 +45,7 @@ To run the eCommerce app, you need to have the following software installed:
    ```
 3. Set up the database:
 
-   - Create a MySQL database for user information and transactions.
-   - Create a PostgreSQL database for product data and inventory.
+   - Create a MySQL/PostgreSQL database for user information & transactions, product data and inventory.
 
 4. Configure the app:
 
@@ -64,6 +62,7 @@ To run the eCommerce app, you need to have the following software installed:
    http://localhost:3000
    ```
 ## Usage
+
    - Register a new user account or log in with an existing account.
    - Browse the product listings and add items to your cart.
    - View your order history and manage your account settings.

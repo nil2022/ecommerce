@@ -1,4 +1,5 @@
-const bcrypt = require('bcryptjs')
+require('dotenv').config()
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {User, Cart} = require('../models')
 
@@ -10,24 +11,21 @@ async function signUp(req,res){
 	try{
 		const user = await User.create({username,email,password})
 		await Cart.create({id: user.id})
-		console.log('user', user)
+		console.log('User Created:', user)
 		if(req.body.roles){
 			const roles = req.body.roles;
 			const result = await user.setRoles(roles)
-			console.log('user defined roles', result)
+			console.log('user defined roles:', result)
 
 		}else{
 			const result = await user.setRoles([1])
-			console.log("default roles",result)
+			console.log("default roles:",result)
 		}
 
 		res.send({msg :'User has been created successfully'})
 	}catch(err){
 		res.status(500).send({msg : 'Internal Server error'})
 	}
-
-
-	
 }
 
 async function signIn(req,res){
@@ -46,7 +44,7 @@ async function signIn(req,res){
 				res.status(400).send({msg : 'Username/password is not correct'})	
 			}
 
-			const token = await jwt.sign({id : user.id}, 'helloIamsecretkey', {
+			const token = await jwt.sign({id : user.id}, process.env.SECRET_KEY, {
 				expiresIn: '7d'
 			})
 
