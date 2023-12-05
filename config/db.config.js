@@ -38,7 +38,7 @@ const pgVercel = {
 }
 
 module.exports = {
-        'postgresql-local': development,
+        'development': development,
         'postgresql-test': test,
         'postgresql-elephant': pgElephant,
         'postgresql-vercel': pgVercel,  

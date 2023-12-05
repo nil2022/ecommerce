@@ -7,11 +7,14 @@ const logger = require('morgan')
 const bcrypt = require('bcrypt')
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
 app.use(authRoutes)
 app.use(categoryRoutes)
 app.use(productRoutes)
 app.use(cartRoutes)
-app.use(logger('short'))
+
+app.use(logger('combined'))
 
 app.get('/', (req, res) => {
 	res.status(200).send('Server is up and running');
