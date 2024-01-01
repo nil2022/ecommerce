@@ -1,3 +1,4 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const {User} = require('../models')
 async function verifyToken(req,res,next){
@@ -5,7 +6,7 @@ async function verifyToken(req,res,next){
 
 	if(token){
 		try{
-			const result = await jwt.verify(token, 'helloIamsecretkey')
+			const result = jwt.verify(token, process.env.SECRET_KEY);
 			if(result){
 				req.userId = result.id;
 				next()
