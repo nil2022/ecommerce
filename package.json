@@ -4,7 +4,8 @@
   "description": "ecommerce project",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --coverage",
+    "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
+    "test:cov": "cross-env NODE_ENV=test jest --coverage",
     "build": "npm install bcrypt dotenv express jsonwebtoken mysql2 nodemon sequelize sequelize-cli morgan pg --save",
     "start": "node index.js",
     "dev": "nodemon index.js"
@@ -35,20 +36,23 @@
   "homepage": "https://github.com/nil2022/js-basics.git#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "jsonwebtoken": "^8.5.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
-    "nodemon": "^2.0.19",
     "pg": "^8.11.3",
-    "sequelize": "^6.21.3",
-    "sequelize-cli": "^6.4.1"
+    "sequelize": "^6.35.1",
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "jest": "^28.1.3",
+    "nodemon": "^3.0.2",
     "supertest": "^6.2.4"
+  },
+  "engines": {
+    "node": ">=18.19.0"
   },
   "directories": {
     "test": "tests"
