@@ -44,8 +44,8 @@ async function signIn(req,res){
 				res.status(400).send({msg : 'Username/password is not correct'})	
 			}
 
-			const token = await jwt.sign({id : user.id}, process.env.SECRET_KEY, {
-				expiresIn: '7d'
+			const token = jwt.sign({id : user.id}, process.env.SECRET_KEY, {
+				expiresIn: process.env.JWT_EXPIRES_IN
 			})
 
 			const authorities = [];

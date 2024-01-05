@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
-    "build": "npm install bcrypt dotenv express jsonwebtoken mysql2 nodemon sequelize sequelize-cli morgan pg --save",
+    "build": "npm install bcrypt dotenv express jsonwebtoken mysql2 sequelize sequelize-cli morgan pg --save",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -42,7 +42,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "pg": "^8.11.3",
-    "sequelize": "^6.35.1",
+    "sequelize": "^6.35.2",
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
