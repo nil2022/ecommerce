@@ -28,13 +28,18 @@ async function getAllProduct(req,res){
 
 async function getProductOnId(req,res){
 
-	const productId = req.params.id;
+	const productId = req.query.id;
+
 	try{
 		const result = await Products.findOne({
 			where : {
 				id: productId
 			}
 		});
+		if (result == null) {
+			res.status(400).send({msg : 'product id does not exist'})
+			return;
+		}
 		res.send(result)
 	}catch(err){
 		res.status(500).send({msg: 'Internal server error',err})
@@ -43,10 +48,12 @@ async function getProductOnId(req,res){
 
 async function updateProduct(req,res){
 	const productData = req.body;
-	const productId = req.params.id;
+	const productId = req.query.id;
+	
 	
 	if(!(productData.name && productData.cost && productData.quantity && productData.description)){
 		res.status(400).send({msg : 'Name, Cost, Quantity & description is missing'})
+		return;
 	}
 
 	try{
@@ -86,7 +93,7 @@ async function updateProduct(req,res){
  * Deletes a product from the database.
  */
 async function deleteProduct(req,res){
-	const productId = req.params.id;
+	const productId = req.query.id;
 	try{
 		await Products.destroy({
 			where: {id:productId}

@@ -11,10 +11,10 @@ routes.post('/ecomm/api/v1/categories',[checkNameForCategory, verifyToken, isAdm
 
 routes.get('/ecomm/api/v1/categories',getAllCategory)
 
-routes.get('/ecomm/api/v1/categories/:id', getCategoryOnId)
+routes.get('/ecomm/api/v1/category', getCategoryOnId)
 
-routes.put('/ecomm/api/v1/categories/:id',[verifyToken, isAdmin], updateCategory)
+routes.patch('/ecomm/api/v1/category',[verifyToken, isAdmin], updateCategory)
 
-routes.delete('/ecomm/api/v1/categories/:id',[verifyToken, isAdmin], deleteCategory)
+routes.delete('/ecomm/api/v1/category',[verifyToken, isAdmin], deleteCategory)
 
 module.exports = {categoryRoutes : routes}

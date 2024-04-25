@@ -39,6 +39,7 @@ async function checkRoles(req,res,next){
 			attributes:['id']
 		});
 		
+// Iterates through roles in database and checks if they match given roles.
 		if(findRoleFromDB.length > 0){
 			const storeRoles = []
 
@@ -46,12 +47,14 @@ async function checkRoles(req,res,next){
 				storeRoles.push(findRoleFromDB[i].dataValues.id)
 			}
 			for(let i = 0; i< roles.length;i++){
-				const result = storeRoles.includes(roles[i])
+				const result = storeRoles.includes(Number(roles[i]), 0)
+				// console.log('\nresult:',result, roles[i], storeRoles)
 				
 				if(!result){
 					flag = false
 					break;
 				}
+				
 			}
 			
 			if(flag){
@@ -61,7 +64,7 @@ async function checkRoles(req,res,next){
 				return;
 			}
 		}else{
-			res.status(500).send({msg: 'Internal server error, Role does not found'});
+			res.status(500).send({msg: 'Internal server error, Role not found'});
 			return;
 		}
 	}

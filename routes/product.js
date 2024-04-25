@@ -31,13 +31,13 @@ routes.get('/ecomm/api/v1/products', getAllProduct);
 routes.get('/ecomm/api/v1/products/filter', filterBasedOnProduct);
 
 // Define the route for getting a specific product by its ID
-routes.get('/ecomm/api/v1/products/:id', getProductOnId);
+routes.get('/ecomm/api/v1/product', getProductOnId);
 
 // Define the route for updating a product by its ID
-routes.put('/ecomm/api/v1/products/:id', [verifyToken, isAdmin], updateProduct);
+routes.patch('/ecomm/api/v1/product', [verifyToken, isAdmin], updateProduct);
 
 // Define the route for deleting a product by its ID
-routes.delete('/ecomm/api/v1/products/:id', [verifyToken, isAdmin], deleteProduct);
+routes.delete('/ecomm/api/v1/products', [verifyToken, isAdmin], deleteProduct);
 
 // Export the routes object
 module.exports = { productRoutes: routes };
