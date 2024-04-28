@@ -3,7 +3,7 @@ import express from "express";
 // Create a router object
 const router = express.Router();
 // Import the signUp and signIn functions from the auth controller
-import { signUp, signIn } from "../controller/auth.js";
+import { signUp, signIn } from "../controller/auth.controller.js";
 // Import the checkDuplicateUsernameAndEmail and checkRoles middleware functions
 import {
     checkDuplicateUsernameAndEmail,

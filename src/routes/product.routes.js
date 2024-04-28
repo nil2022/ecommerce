@@ -8,7 +8,7 @@ import {
     getProductOnId,
     updateProduct,
     deleteProduct,
-} from "../controller/product.js";
+} from "../controller/product.controller.js";
 
 // Import the middleware functions
 import {

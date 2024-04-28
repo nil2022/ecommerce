@@ -5,7 +5,7 @@ import {
     getCategoryOnId,
     updateCategory,
     deleteCategory,
-} from "../controller/category.js";
+} from "../controller/category.controller.js";
 
 import {
     checkNameForCategory,
