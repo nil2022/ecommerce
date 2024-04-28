@@ -6,7 +6,7 @@ export async function createCategory(req, res) {
     try {
         const result = await Categories.create({ name, description });
         // console.log("result", result);
-        return res.send({ msg: "Category has been created" });
+        return res.status(201).send({ msg: "Category has been created" , result});
     } catch (err) {
         console.log(err);
         return res.status(500).send({ msg: "Internal server error" });

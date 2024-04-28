@@ -21,9 +21,9 @@ router.post(
     createCategory
 );
 
-router.get("/getAll", getAllCategory);
+router.get("/getAll", [verifyToken], getAllCategory);
 
-router.get("/getOne", getCategoryOnId);
+router.get("/getOne", [verifyToken], getCategoryOnId);
 
 router.patch("/updateOne", [verifyToken, isAdmin], updateCategory);
 

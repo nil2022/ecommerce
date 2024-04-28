@@ -42,15 +42,13 @@ export async function signIn(req, res) {
         if (user) {
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {
-				console.log('not valid password')
+                console.log("Password not correct");
                 return res.status(400).send({
                     msg: "Password not correct",
                 });
             }
 
-            const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-                expiresIn: process.env.JWT_EXPIRES_IN,
-            });
+            // console.log('User found: ', user)
 
             const authorities = [];
             const roles = await user.getRoles();
@@ -58,19 +56,61 @@ export async function signIn(req, res) {
                 authorities.push(roles[i].name);
             }
 
+            const accessToken = jwt.sign(
+                { 
+                    id: user.id,
+                    userId: user.userId,
+                    email: user.email,
+                    authorities
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+                }
+            );
+            const refreshToken = jwt.sign(
+                { 
+                    id: user.id,
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+                }
+            );
+
+            // console.log('access token-> ', accessToken)
+
             const finalUser = {
                 id: user.id,
                 name: user.name,
                 email: user.email,
                 userId: user.userId,
-                accessToken: token,
                 authorities: authorities,
             };
 
-            res.send(finalUser);
+            const cookieOptions = {
+                http: true,
+                secure: true,
+            };
+
+            return res
+                .status(201)
+                .cookie("accessToken", accessToken, cookieOptions)
+                // .cookie("refreshToken", refreshToken, cookieOptions)
+                .json({
+                    data: {
+                        finalUser,
+                        accessToken,
+                    },
+                    message: "User logged in successfully",
+                    statusCode: 200,
+                    success: true,
+                });
         } else {
-			console.log('hi')
-            return res.status(400).send({ msg: "Username/password is not correct" });
+            console.log("Username/password is not correct");
+            return res
+                .status(400)
+                .send({ msg: "Username/password is not correct" });
         }
     } catch (err) {
         console.log(err);

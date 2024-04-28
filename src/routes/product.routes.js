@@ -28,13 +28,13 @@ router.post(
 );
 
 // Define the route for getting all products
-router.get("/getAll", getAllProduct);
+router.get("/getAll", [verifyToken], getAllProduct);
 
 // Define the route for filtering products based on some criteria
-router.get("/filter", filterBasedOnProduct);
+router.get("/filter", [verifyToken], filterBasedOnProduct);
 
 // Define the route for getting a specific product by its ID
-router.get("/getOne", getProductOnId);
+router.get("/getOne", [verifyToken], getProductOnId);
 
 // Define the route for updating a product by its ID
 router.patch("/updateOne", [verifyToken, isAdmin], updateProduct);
