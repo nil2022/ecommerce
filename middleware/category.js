@@ -1,4 +1,4 @@
-async function checkNameForCategory(req,res,next){
+export async function checkNameForCategory(req,res,next){
 	const categoryData = req.body;
 
 	if(!categoryData.name){
@@ -7,5 +7,3 @@ async function checkNameForCategory(req,res,next){
 	}
 	next()
 }
-
-module.exports = { checkNameForCategory }

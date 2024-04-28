@@ -1,7 +1,6 @@
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const {User} = require('../models')
-async function verifyToken(req,res,next){
+import jwt from 'jsonwebtoken';
+import {UserModel as User} from '../models/index.js';
+export async function verifyToken(req,res,next){
 	const token = req.headers['x-access-token'];
 
 	if(token){
@@ -24,14 +23,14 @@ async function verifyToken(req,res,next){
 	}
 }
 
-async function isAdmin(req,res,next){
+export async function isAdmin(req,res,next){
 	const userId = req.userId;
 
 	try{
 		const user = await User.findByPk(userId);
 		const userRoles =  await user.getRoles();
 		for(let i = 0; i< userRoles.length; i++){
-			if(userRoles[i].dataValues.name === 'Admin'){
+			if(userRoles[i].dataValues.name === 'Admin' || userRoles[i].dataValues.name === 'SuperAdmin'){
 				next()
 				return;
 			}
@@ -43,5 +42,3 @@ async function isAdmin(req,res,next){
 		return;
 	}
 }
-
-module.exports = {verifyToken, isAdmin}

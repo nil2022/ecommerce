@@ -1,43 +1,46 @@
-// Import the required modules
-const express = require('express');
+import express from "express";
 
 // Import the controller functions from the 'product' file
-const {
-  createProduct,
-  getAllProduct,
-  filterBasedOnProduct,
-  getProductOnId,
-  updateProduct,
-  deleteProduct
-} = require('../controller/product');
+import {
+    createProduct,
+    getAllProduct,
+    filterBasedOnProduct,
+    getProductOnId,
+    updateProduct,
+    deleteProduct,
+} from "../controller/product.js";
 
 // Import the middleware functions
-const {
-  validateProductData,
-  verifyToken,
-  isAdmin
-} = require('../middleware');
+import {
+    validateProductData,
+    verifyToken,
+    isAdmin,
+} from "../middleware/index.js";
 
 // Create a new instance of the Express router
-const routes = express.Router();
+const router = express.Router();
 
 // Define the route for creating a new product
-routes.post('/ecomm/api/v1/products', [validateProductData, verifyToken, isAdmin], createProduct);
+router.post(
+    "/add",
+    [validateProductData, verifyToken, isAdmin],
+    createProduct
+);
 
 // Define the route for getting all products
-routes.get('/ecomm/api/v1/products', getAllProduct);
+router.get("/getAll", getAllProduct);
 
 // Define the route for filtering products based on some criteria
-routes.get('/ecomm/api/v1/products/filter', filterBasedOnProduct);
+router.get("/filter", filterBasedOnProduct);
 
 // Define the route for getting a specific product by its ID
-routes.get('/ecomm/api/v1/product', getProductOnId);
+router.get("/getOne", getProductOnId);
 
 // Define the route for updating a product by its ID
-routes.patch('/ecomm/api/v1/product', [verifyToken, isAdmin], updateProduct);
+router.patch("/updateOne", [verifyToken, isAdmin], updateProduct);
 
 // Define the route for deleting a product by its ID
-routes.delete('/ecomm/api/v1/products', [verifyToken, isAdmin], deleteProduct);
+router.delete("/deleteOne", [verifyToken, isAdmin], deleteProduct);
 
 // Export the routes object
-module.exports = { productRoutes: routes };
+export default router;

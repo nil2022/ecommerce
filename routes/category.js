@@ -1,20 +1,32 @@
-const express = require('express')
-const {createCategory, getAllCategory,
-getCategoryOnId, updateCategory, deleteCategory} = require('../controller/category')
+import express from "express";
+import {
+    createCategory,
+    getAllCategory,
+    getCategoryOnId,
+    updateCategory,
+    deleteCategory,
+} from "../controller/category.js";
 
-const { checkNameForCategory, verifyToken, isAdmin } = require('../middleware')
+import {
+    checkNameForCategory,
+    verifyToken,
+    isAdmin,
+} from "../middleware/index.js";
 
-const routes = express.Router()
+const router = express.Router();
 
+router.post(
+    "/add",
+    [checkNameForCategory, verifyToken, isAdmin],
+    createCategory
+);
 
-routes.post('/ecomm/api/v1/categories',[checkNameForCategory, verifyToken, isAdmin],createCategory)
+router.get("/getAll", getAllCategory);
 
-routes.get('/ecomm/api/v1/categories',getAllCategory)
+router.get("/getOne", getCategoryOnId);
 
-routes.get('/ecomm/api/v1/category', getCategoryOnId)
+router.patch("/updateOne", [verifyToken, isAdmin], updateCategory);
 
-routes.patch('/ecomm/api/v1/category',[verifyToken, isAdmin], updateCategory)
+router.delete("/deleteOne", [verifyToken, isAdmin], deleteCategory);
 
-routes.delete('/ecomm/api/v1/category',[verifyToken, isAdmin], deleteCategory)
-
-module.exports = {categoryRoutes : routes}
+export default router;

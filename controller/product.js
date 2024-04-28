@@ -1,6 +1,7 @@
-const { Products, Sequelize } = require('../models')
+import { ProductModel as Products } from '../models/index.js'
+import { Op } from 'sequelize';
 
-async function createProduct(req, res){
+export async function createProduct(req, res){
 	const productData = req.body;
 
 	try{
@@ -17,7 +18,7 @@ async function createProduct(req, res){
 	}
 }
 
-async function getAllProduct(req,res){
+export async function getAllProduct(req,res){
 	try{
 		const result = await Products.findAll();
 		res.status(201).send(result)
@@ -26,7 +27,7 @@ async function getAllProduct(req,res){
 	}
 }
 
-async function getProductOnId(req,res){
+export async function getProductOnId(req,res){
 
 	const productId = req.query.id;
 
@@ -46,7 +47,7 @@ async function getProductOnId(req,res){
 	}
 }
 
-async function updateProduct(req,res){
+export async function updateProduct(req,res){
 	const productData = req.body;
 	const productId = req.query.id;
 	
@@ -92,21 +93,24 @@ async function updateProduct(req,res){
 /**
  * Deletes a product from the database.
  */
-async function deleteProduct(req,res){
+export async function deleteProduct(req,res){
 	const productId = req.query.id;
 	try{
-		await Products.destroy({
+		const getProduct = await Products.destroy({
 			where: {id:productId}
 		})
-
-		res.send({msg: "product delete successfully"})
+		if (!getProduct) {
+			return res.status(400).send({msg: 'product id does not exist'})
+		}
+		return res.send({msg: "product delete successfully"})
 	}catch(err){
-		res.status(500).send({msg: 'Internal server error',err})
+		console.log(err)
+		return res.status(500).send({msg: 'Internal server error'})
 	}
 }
 
 
-async function filterBasedOnProduct(req,res){
+export async function filterBasedOnProduct(req,res){
 	/** CHECK CategoryId for crash problem**/
 	const CategoryId = req.query.CategoryId; // ?CategoryId=3
 	/** CHECK name for crash problem**/
@@ -134,8 +138,8 @@ async function filterBasedOnProduct(req,res){
 		const result = await Products.findAll({
 			where : {
 				cost : {
-					[Sequelize.Op.gte] : minCost,
-					[Sequelize.Op.lte] : maxCost
+					[Op.gte] : minCost,
+					[Op.lte] : maxCost
 				}
 			}
 		})
@@ -146,7 +150,7 @@ async function filterBasedOnProduct(req,res){
 				const result = await Products.findAll({
 			where : {
 				cost : {
-					[Sequelize.Op.gte] : minCost
+					[Op.gte] : minCost
 				}
 			}
 		})
@@ -156,7 +160,7 @@ async function filterBasedOnProduct(req,res){
 		const result = await Products.findAll({
 			where : {
 				cost : {
-					[Sequelize.Op.lte] : maxCost
+					[Op.lte] : maxCost
 				}
 			}
 		})
@@ -167,13 +171,4 @@ async function filterBasedOnProduct(req,res){
 		const result = await Products.findAll()
 		res.send(result);
 	}
-}
-
-module.exports = {
-	createProduct,
-	getAllProduct,
-	getProductOnId,
-	deleteProduct,
-	updateProduct,
-	filterBasedOnProduct
 }

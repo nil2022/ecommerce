@@ -1,12 +1,10 @@
-const express = require('express')
-const {updateCart, getCart} = require('../controller/cart')
-const {verifyToken} = require('../middleware')
-const routes = express.Router()
+import express from "express";
+import { updateCart, getCart } from "../controller/cart.js";
+import { verifyToken } from "../middleware/index.js";
+const router = express.Router();
 
+router.put("/:id", [verifyToken], updateCart);
 
+router.get("/:id", [verifyToken], getCart);
 
-routes.put('/ecomm/api/v1/carts/:id',[verifyToken], updateCart)
-
-routes.get('/ecomm/api/v1/carts/:id',[verifyToken], getCart)
-
-module.exports = {cartRoutes : routes}
+export default router;

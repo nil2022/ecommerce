@@ -1,15 +1,13 @@
-const {checkNameForCategory} = require('./category')
-const { validateProductData } = require('./product')
-const {checkDuplicateUsernameAndEmail, checkRoles} = require('./user')
-const {verifyToken, isAdmin} = require('./authjwt')
+import { checkNameForCategory } from "./category.js";
+import { validateProductData } from "./product.js";
+import { checkDuplicateUsernameAndEmail, checkRoles } from "./user.js";
+import { verifyToken, isAdmin } from "./authjwt.js";
 
-module.exports = {
-	checkNameForCategory,
-	validateProductData,
-	checkDuplicateUsernameAndEmail, checkRoles, verifyToken, isAdmin
-}
-
-async function foo(add){
-	console.log('I am async func');
-	return Promise.resolve();
+export {
+    checkNameForCategory,
+    validateProductData,
+    checkDuplicateUsernameAndEmail,
+    checkRoles,
+    verifyToken,
+    isAdmin,
 };

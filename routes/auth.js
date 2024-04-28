@@ -1,19 +1,23 @@
 // Import the express module
-const express = require('express')
+import express from "express";
 // Create a router object
-const routes = express.Router()
+const router = express.Router();
 // Import the signUp and signIn functions from the auth controller
-const { signUp,signIn } = require('../controller/auth')
+import { signUp, signIn } from "../controller/auth.js";
 // Import the checkDuplicateUsernameAndEmail and checkRoles middleware functions
-const {checkDuplicateUsernameAndEmail, checkRoles} = require('../middleware')
+import {
+    checkDuplicateUsernameAndEmail,
+    checkRoles,
+} from "../middleware/index.js";
 
 // Define a route for signing up users
-routes.post('/ecomm/api/v1/auth/signup',[checkDuplicateUsernameAndEmail, checkRoles],
-signUp)
+router.post(
+    "/signup",
+    [checkDuplicateUsernameAndEmail, checkRoles],
+    signUp
+);
 // Define a route for signing in users
-routes.post('/ecomm/api/v1/auth/signin',signIn)
+router.post("/signin", signIn);
 
 // Export the router object as authRoutes
-module.exports = {
-    authRoutes : routes
-}
+export default router;

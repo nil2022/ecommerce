@@ -1,41 +1,55 @@
-const { serverPort } = require("./config/server.config");
-const express = require("express");
-const { Categories, sequelize, Products, Role, User } = require("./models");
-const {
-    categoryRoutes,
-    productRoutes,
-    authRoutes,
-    cartRoutes,
-} = require("./routes");
-const app = express();
-const logger = require("morgan");
-const bcrypt = require("bcrypt");
+import { dbConnect, sequelizeInstance } from "./config/db.config.js";
+import { app } from "./app.js";
+import serverPort from "./config/server.config.js";
+import { userSchema as User } from "./models/user.model.js";
+import { productSchema as Product } from "./models/product.model.js";
+import { categorySchema as Category } from "./models/categories.model.js";
+import { roleSchema as Role  } from "./models/role.model.js";
+import { cartSchema as Cart } from "./models/cart.model.js";
+import { Role_User, User_Role } from "./models/association.js";
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.use(authRoutes);
-app.use(categoryRoutes);
-app.use(productRoutes);
-app.use(cartRoutes);
-
-app.use(logger("combined"));
-
-app.get("/", (req, res) => {
-    res.status(200).send("Server is up and running");
-});
-
-app.listen(serverPort, async () => {
-    console.log(`\nServer is running on this port: ${serverPort}\n`);
-    await initialize();
-});
+dbConnect()
+    .then(() => {
+        initialize();
+        app.listen(serverPort, () => {
+            console.log(`\nServer is running on this port: ${serverPort}\n`);
+        });
+    })
+    .catch((err) => {
+        console.log("Database Connection FAILED !!:", err);
+    });
 
 async function initialize() {
     try {
-        await sequelize.sync({
-            force: true,
-        });
-        // raw data to be stored in database
+        await sequelizeInstance.sync({ force: true, logging: false });
+        
+        const defaultRoles = [
+            {
+                name: "Customer",
+            },
+            {
+                name: "Admin",
+            },
+            {
+                name: "SuperAdmin",
+            }
+        ];
+
+        const defaultCategories = [
+            {
+                name: "Beauty",
+                description: "All beauty Products",
+            },
+            {
+                name: "Fragnance",
+                description: "All Fragnance Products",
+            },
+            {
+                name: "Clothes",
+                description: "All types of Clothes",
+            },
+        ];
+
         const defaultProducts = [
             {
                 description: "Nyka best products",
@@ -60,43 +74,35 @@ async function initialize() {
             },
         ];
 
-        const defaultCategories = [
-            {
-                name: "Beauty",
-                description: "All beauty Products",
-            },
-            {
-                name: "Fragnance",
-                description: "All Fragnance Products",
-            },
-            {
-                name: "Clothes",
-                description: "All types of Clothes",
-            },
-        ];
-
-        const defaultRoles = [
-            {
-                name: "User",
-            },
-            {
-                name: "Admin",
-            },
-        ];
-
-        // const defaultUser = [
-        // {
-        // 	username : 'admin',
-        // 	password : bcrypt.hashSync('admin', 10),
-        // 	email : 'admin@admin.com'
-        // }
-        // ]
-
-        await Categories.bulkCreate(defaultCategories);
-        await Products.bulkCreate(defaultProducts);
         await Role.bulkCreate(defaultRoles);
-        // await User.bulkCreate(defaultUser)
+
+        await Category.bulkCreate(defaultCategories)
+
+        await Product.bulkCreate(defaultProducts);
+
+        const systemAdmin = await User.findOne({
+            where: {
+                userId: process.env.SYSTEM_ADMIN_USERID,
+            },
+        });
+        // console.log("systemAdmin", systemAdmin);
+        if (systemAdmin) {
+            console.log("\nWELCOME SYSTEM ADMINISTRATOR!\n");
+            return;
+        }
+        // raw data to be stored in database
+        const createSystemAdmin = await User.create({
+            userId: process.env.SYSTEM_ADMIN_USERID,
+            password: process.env.SYSTEM_ADMIN_PASSWORD,
+            email: process.env.SYSTEM_ADMIN_EMAIL,
+        });
+        await createSystemAdmin.setRoles([3]);
+        await Cart.create({
+            id: createSystemAdmin.id,
+        });
+        console.log("\nWELCOME SYSTEM ADMINISTRATOR!\n");
+        
     } catch (err) {
-        console.log("Error:", err);
+        console.log(err);
     }
 }

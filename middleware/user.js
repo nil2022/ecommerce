@@ -1,6 +1,6 @@
-const {User, Role, Sequelize} = require('../models')
+import {UserModel as User, RoleModel as Role} from '../models/index.js'
 
-async function checkDuplicateUsernameAndEmail(req,res,next){
+export async function checkDuplicateUsernameAndEmail(req,res,next){
 	if(req.body.username){
 		const user = await User.findOne({
 			where : {
@@ -31,7 +31,7 @@ async function checkDuplicateUsernameAndEmail(req,res,next){
 
 }
 
-async function checkRoles(req,res,next){
+export async function checkRoles(req,res,next){
 	if(req.body.roles){
 		let roles = req.body.roles;
 		let flag = true;
@@ -72,6 +72,3 @@ async function checkRoles(req,res,next){
 		next()
 	}
 }
-
-
-module.exports = {checkDuplicateUsernameAndEmail,checkRoles}

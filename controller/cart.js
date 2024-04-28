@@ -1,6 +1,6 @@
-const {Cart, Products} = require('../models')
+import {CartModel as Cart, ProductModel as Products} from '../models/index.js'
 
-async function updateCart(req,res){
+export async function updateCart(req,res){
 	const cartId = req.params.id;
 	try{
 		const cart = await Cart.findByPk(cartId);
@@ -32,21 +32,25 @@ async function updateCart(req,res){
 						description: cartProducts[i].dataValues.description
 					})
 				}
-				res.send({totalCost,addedProducts})
+				await Cart.update({cost: totalCost},{where : {id : cartId}})
+				return res.send({totalCost,addedProducts})
 			}else{
-				res.status(400).send({msg : 'Products does not exist'})
+				console.log('Product does not exist')
+				return res.status(400).send({msg : 'Product does not exist'})
 			}
 
 		}else{
-			res.status(400).send({msg : 'Cart does not exist'})
+			console.log('Cart does not exist')
+			return res.status(400).send({msg : 'Cart does not exist'})
 		}
 
 	}catch(err){
-		res.status(500).send({msg : 'Internal server error', err})
+		console.log(err)
+		return res.status(500).send({msg : 'Internal server error'})
 	}
 }
 
-async function getCart(req,res){
+export async function getCart(req,res){
 		const cartId = req.params.id;
 	try{
 		const cart = await Cart.findByPk(cartId);
@@ -67,14 +71,14 @@ async function getCart(req,res){
 						description: cartProducts[i].dataValues.description
 					})
 				}
-				res.send({totalCost,addedProducts})
+				return res.send({totalCost,addedProducts})
 		}else{
-			res.status(400).send({msg : 'Cart does not exist'})
+			console.log('Cart does not exist')
+			return res.status(400).send({msg : 'Cart does not exist'})
 		}
 
 	}catch(err){
-		res.status(500).send({msg : 'Internal server error', err})
+		console.log(err)
+		return res.status(500).send({msg : 'Internal server error', err})
 	}
 }
-
-module.exports = {updateCart, getCart}

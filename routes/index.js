@@ -1,11 +1,6 @@
-const { categoryRoutes } = require('./category')
-const { productRoutes }= require('./product')
-const { authRoutes } = require('./auth')
-const {cartRoutes} = require('./cart')
+import categoryRoutes from "./category.js";
+import productRoutes from "./product.js";
+import authRoutes from "./auth.js";
+import cartRoutes from "./cart.js";
 
-module.exports = {
-	categoryRoutes,
-	productRoutes,
-	authRoutes,
-	cartRoutes
-}
+export { categoryRoutes, productRoutes, authRoutes, cartRoutes };

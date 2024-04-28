@@ -1,14 +1,16 @@
 {
   "name": "ecommerce-mysql",
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "description": "ecommerce project",
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
     "build": "npm install bcrypt dotenv express jsonwebtoken mysql2 sequelize sequelize-cli morgan pg --save",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node -r dotenv/config index.js",
+    "dev": "nodemon -r dotenv/config index.js"
   },
   "repository": {
     "type": "git",

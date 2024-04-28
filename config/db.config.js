@@ -1,37 +1,25 @@
-require("dotenv").config();
+import { Sequelize } from "sequelize";
 
-const development = {
-	username: process.env.PG_USERNAME,
-	password: process.env.PG_PASSWORD,
-	database: process.env.PG_DATABASE,
-	host: process.env.PG_HOST,
-	dialect: process.env.PG_DIALECT,
-	port: process.env.PG_PORT,
-};
-const test = {
-	username: "root",
-	password: "",
-	database: "test",
-	host: "127.0.0.1",
-	dialect: "mysql",
-	port: "3307",
-};
+const sequelizeInstance = new Sequelize(process.env.DB_URL_POSTGRESQL, {
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+		
+    },
+    // dialectOptions: {
+    //     ssl: {
+    //         require: true,
+    //         rejectUnauthorized: false,
+    //     }
+    // }
+    
+});
+async function dbConnect() {
+    await sequelizeInstance.authenticate();
+    console.log("\nConnected to Hostname:", sequelizeInstance.options.host);
+	// console.log('sequelizeInstance', sequelizeInstance.options)
+}
 
-const pgVercel = {
-	username: process.env.PG_USERNAME,
-	password: process.env.PG_PASSWORD,
-	database: process.env.PG_DATABASE,
-	host: process.env.PG_HOST,
-	dialect: "postgres",
-	port: process.env.PG_PORT,
-	dialectOptions: {
-		ssl: true,
-		sslmode: "require",
-	},
-};
-
-module.exports = {
-	"development": development,
-	"postgresql-test": test,
-	"postgresql-vercel": pgVercel,
-};
+export { dbConnect, sequelizeInstance };

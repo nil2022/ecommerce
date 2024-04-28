@@ -1,19 +1,19 @@
-const { Categories } = require("../models");
+import { CategoriesModel as Categories } from "../models/index.js";
 
-async function createCategory(req, res) {
+export async function createCategory(req, res) {
     const {	name, description } = req.body;
 
     try {
         const result = await Categories.create({ name, description });
-        console.log("result", result);
-        res.send({ msg: "Category has been created" });
+        // console.log("result", result);
+        return res.send({ msg: "Category has been created" });
     } catch (err) {
-        console.log("err in creation of categories", err);
-        res.status(500).send({ msg: "Internal server error" });
+        console.log(err);
+        return res.status(500).send({ msg: "Internal server error" });
     }
 }
 
-async function getAllCategory(req, res) {
+export async function getAllCategory(req, res) {
     try {
         const result = await Categories.findAll();
         res.send(result);
@@ -23,7 +23,7 @@ async function getAllCategory(req, res) {
     }
 }
 
-async function getCategoryOnId(req, res) {
+export async function getCategoryOnId(req, res) {
     const categoryId = req.query.id;
 	
     try {
@@ -43,7 +43,7 @@ async function getCategoryOnId(req, res) {
     }
 }
 
-async function updateCategory(req, res) {
+export async function updateCategory(req, res) {
     const categoryId = req.query.id;
     try {
         const result = await Categories.findOne({
@@ -68,7 +68,7 @@ async function updateCategory(req, res) {
     }
 }
 
-async function deleteCategory(req, res) {
+export async function deleteCategory(req, res) {
     const categoryId = req.query.id;
     try {
         const result = await Categories.destroy({
@@ -80,17 +80,9 @@ async function deleteCategory(req, res) {
             res.status(400).send({ msg: "category id does not exist" });
             return;
         }
-        res.send({ msg: "catrgory deleted"});
+        res.send({ msg: "category deleted"});
     } catch (err) {
-        console.log("err in deleting categories", err);
+        console.log(err);
         res.status(500).send({ msg: "Internal server error" });
     }
 }
-
-module.exports = {
-    createCategory,
-    getAllCategory,
-    getCategoryOnId,
-    updateCategory,
-    deleteCategory,
-};
