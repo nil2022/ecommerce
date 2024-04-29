@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserModel as User, CartModel as Cart } from "../models/index.js";
+import supabase from "../utils/supabase.js";
 
 export async function signUp(req, res) {
-    const userId = req.body.userId;
-    const email = req.body.email;
-    const password = req.body.password;
+
+    const {userId, email, password} = req.body;
 
     try {
         const user = await User.create({ userId, email, password });
@@ -15,14 +15,13 @@ export async function signUp(req, res) {
         console.log("User Created:", user.userId);
         if (req.body.roles) {
             const roles = req.body.roles;
-            const result = await user.setRoles(roles);
-            // console.log("user defined roles:", result);
+            await user.setRoles(roles);
+            
         } else {
-            const result = await user.setRoles([1]);
-            // console.log("default roles:", result);
+            await user.setRoles([1]);
         }
 
-        res.send({ msg: "User has been created successfully" });
+        res.send({ msg: "User has been created successfully", user });
     } catch (err) {
         console.log(err);
         res.status(500).send({ msg: "Internal Server error" });
@@ -30,8 +29,8 @@ export async function signUp(req, res) {
 }
 
 export async function signIn(req, res) {
-    const userId = req.body.userId;
-    const password = req.body.password;
+    
+    const {userId, password} = req.body
 
     try {
         const user = await User.findOne({
@@ -47,8 +46,6 @@ export async function signIn(req, res) {
                     msg: "Password not correct",
                 });
             }
-
-            // console.log('User found: ', user)
 
             const authorities = [];
             const roles = await user.getRoles();
@@ -68,17 +65,15 @@ export async function signIn(req, res) {
                     expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
                 }
             );
-            const refreshToken = jwt.sign(
-                { 
-                    id: user.id,
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                {
-                    expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-                }
-            );
-
-            // console.log('access token-> ', accessToken)
+            // const refreshToken = jwt.sign(
+            //     { 
+            //         id: user.id,
+            //     },
+            //     process.env.ACCESS_TOKEN_SECRET,
+            //     {
+            //         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+            //     }
+            // );
 
             const finalUser = {
                 id: user.id,
@@ -96,10 +91,9 @@ export async function signIn(req, res) {
             return res
                 .status(201)
                 .cookie("accessToken", accessToken, cookieOptions)
-                // .cookie("refreshToken", refreshToken, cookieOptions)
                 .json({
                     data: {
-                        finalUser,
+                        sessionData: finalUser,
                         accessToken,
                     },
                     message: "User logged in successfully",

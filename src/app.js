@@ -31,6 +31,9 @@ app.use("/ecomm/api/v1/cart", cartRoutes);
 app.use(logger("dev"));
 app.use(cookieParser());
 
+app.get("/health", (req, res) => {
+    res.status(200).send("Server is up and running 🚀");
+});
 
 // Route not found middleware
 app.use("*", (_, res) => {
@@ -42,8 +45,6 @@ app.use("*", (_, res) => {
     });
 });
 
-app.get("/", (req, res) => {
-    res.status(200).send("Server is up and running");
-});
+
 
 export { app };

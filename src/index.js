@@ -4,9 +4,10 @@ import serverPort from "./config/server.config.js";
 import { userSchema as User } from "./models/user.model.js";
 import { productSchema as Product } from "./models/product.model.js";
 import { categorySchema as Category } from "./models/categories.model.js";
-import { roleSchema as Role  } from "./models/role.model.js";
+import { roleSchema as Role } from "./models/role.model.js";
 import { cartSchema as Cart } from "./models/cart.model.js";
 import { Role_User, User_Role } from "./models/association.js";
+import { booleanValue } from "./utils/constants.js";
 
 dbConnect()
     .then(() => {
@@ -18,68 +19,65 @@ dbConnect()
     .catch((err) => {
         console.log("Database Connection FAILED !!:", err);
     });
-
 async function initialize() {
     try {
-        await sequelizeInstance.sync({ force: true, logging: false });
-        
-        const defaultRoles = [
-            {
-                name: "Customer",
-            },
-            {
-                name: "Admin",
-            },
-            {
-                name: "SuperAdmin",
-            }
-        ];
+        await sequelizeInstance.sync({
+            /** WARNING -> (force = true) WILL DELETE ALL DATA FROM DATABASE, USE WITH CAUTION, <- WARINING */
+            force:
+                process.env.SEQUELIZE_FORCE_STATUS === "true"
+                    ? booleanValue.TRUE_VALUE
+                    : booleanValue.FALSE_VALUE,
+            logging:
+                process.env.SEQUELIZE_LOGGING_STATUS === "true"
+                    ? booleanValue.TRUE_VALUE
+                    : booleanValue.FALSE_VALUE,
+        });
 
-        const defaultCategories = [
-            {
-                name: "Beauty",
-                description: "All beauty Products",
-            },
-            {
-                name: "Fragnance",
-                description: "All Fragnance Products",
-            },
-            {
-                name: "Clothes",
-                description: "All types of Clothes",
-            },
-        ];
+        /** Check for existing Roles in DB */
+        const existingRoles = await Role.findAll();
+        // console.log(existingRoles);
+        if (!(existingRoles.length > 0)) {
+            const defaultRoles = [
+                {
+                    name: "Customer",
+                },
+                {
+                    name: "Admin",
+                },
+                {
+                    name: "SuperAdmin",
+                },
+            ];
+            await Role.bulkCreate(defaultRoles);
+        }
 
-        const defaultProducts = [
-            {
-                description: "Nyka best products",
-                name: "MakeUP Kit",
-                cost: 870,
-                quantity: 20,
-                CategoryId: 1,
-            },
-            {
-                description: "Best fragnance",
-                name: "Fogg",
-                cost: 280,
-                quantity: 20,
-                CategoryId: 2,
-            },
-            {
-                description: "Best for summer holidays",
-                name: "Summer Clothes",
-                cost: 1200,
-                quantity: 20,
-                CategoryId: 3,
-            },
-        ];
+        /** Check for exisitng Categories in DB */
+        const existingCategories = await Category.findAll();
+        if (!(existingCategories.length > 0)) {
+            const defaultCategories = [
+                {
+                    name: "Beauty",
+                    description: "All beauty Products",
+                },
+            ];
+            await Category.bulkCreate(defaultCategories);
+        }
 
-        await Role.bulkCreate(defaultRoles);
-
-        await Category.bulkCreate(defaultCategories)
-
-        await Product.bulkCreate(defaultProducts);
-
+        /** Check for existing Products in DB */
+        const existingProducts = await Product.findAll();
+        if (!(existingProducts.length > 0)) {
+            const defaultProducts = [
+                {
+                    description: "Nyka best products",
+                    name: "MakeUP Kit",
+                    cost: 870,
+                    quantity: 20,
+                    CategoryId: 1,
+                },
+            ];
+            await Product.bulkCreate(defaultProducts);
+        }
+        /** Fetch SYSTEM ADMIN in DB */
         const systemAdmin = await User.findOne({
             where: {
                 userId: process.env.SYSTEM_ADMIN_USERID,
@@ -90,7 +88,7 @@ async function initialize() {
             console.log("\nWELCOME SYSTEM ADMINISTRATOR!\n");
             return;
         }
-        // raw data to be stored in database
+        // Create a SYSTEM ADMIN if does not exists !
         const createSystemAdmin = await User.create({
             userId: process.env.SYSTEM_ADMIN_USERID,
             password: process.env.SYSTEM_ADMIN_PASSWORD,
@@ -101,7 +99,6 @@ async function initialize() {
             id: createSystemAdmin.id,
         });
         console.log("\nWELCOME SYSTEM ADMINISTRATOR!\n");
-        
     } catch (err) {
         console.log(err);
     }

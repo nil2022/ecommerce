@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const sequelizeInstance = new Sequelize(process.env.DB_URL_POSTGRESQL, {
+const sequelizeInstance = new Sequelize(process.env.DB_URL_SUPABASE, {
     pool: {
         max: 5,
         min: 0,
