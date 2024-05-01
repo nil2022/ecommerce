@@ -838,15 +838,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/realtime-js@npm:2.9.4":
-  version: 2.9.4
-  resolution: "@supabase/realtime-js@npm:2.9.4"
+"@supabase/realtime-js@npm:2.9.5":
+  version: 2.9.5
+  resolution: "@supabase/realtime-js@npm:2.9.5"
   dependencies:
     "@supabase/node-fetch": "npm:^2.6.14"
     "@types/phoenix": "npm:^1.5.4"
     "@types/ws": "npm:^8.5.10"
     ws: "npm:^8.14.2"
-  checksum: 10c0/2c8499ef332d1214c8dda2cabac362034d3e0a38c5941b8a8ffc9bc4666b40d4525c0b5064c17a05468cc4472aa5507c14cb69581a1077f902ece0493ef92cd3
+  checksum: 10c0/e27aa7c7f7a4444357f1df03d62c7a3171ecc6ead7a77c3746db045185d154cbd6883f8295ce3258a42d6815a2aa56f5116e78ac4031e491131d56f288859e96
   languageName: node
   linkType: hard
 
@@ -859,17 +859,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/supabase-js@npm:^2.42.7":
-  version: 2.42.7
-  resolution: "@supabase/supabase-js@npm:2.42.7"
+"@supabase/supabase-js@npm:^2.43.0":
+  version: 2.43.0
+  resolution: "@supabase/supabase-js@npm:2.43.0"
   dependencies:
     "@supabase/auth-js": "npm:2.64.1"
     "@supabase/functions-js": "npm:2.3.1"
     "@supabase/node-fetch": "npm:2.6.15"
     "@supabase/postgrest-js": "npm:1.15.2"
-    "@supabase/realtime-js": "npm:2.9.4"
+    "@supabase/realtime-js": "npm:2.9.5"
     "@supabase/storage-js": "npm:2.5.5"
-  checksum: 10c0/0df48b4f879ee34f1c2fdb917e2cba2fa58de2a3e8c1227a18403321620c4df3d9e2ed0ce3a0e91efb8bb1e0057c7bdaaf0cbfa983cf5fc4b520e0c6b1fb2520
+  checksum: 10c0/01ba2f7580f3faf2e2f0448e41e8e5dea40bd65ba7d6b9240fa3ba55f87f8c002ae331152845aba90b7bc0af4f7fe77047ca4a408e482a5daa590a79ee74c8dc
   languageName: node
   linkType: hard
 
@@ -1943,7 +1943,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ecommerce-mysql@workspace:."
   dependencies:
-    "@supabase/supabase-js": "npm:^2.42.7"
+    "@supabase/supabase-js": "npm:^2.43.0"
     bcrypt: "npm:^5.1.1"
     cookie-parser: "npm:^1.4.6"
     cors: "npm:^2.8.5"
