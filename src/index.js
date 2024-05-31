@@ -19,6 +19,7 @@ dbConnect()
     .catch((err) => {
         console.log("Database Connection FAILED !!:", err);
     });
+    
 async function initialize() {
     try {
         await sequelizeInstance.sync({

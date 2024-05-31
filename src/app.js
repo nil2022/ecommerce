@@ -40,6 +40,7 @@ app.use("*", (_, res) => {
     console.log("Route not found !");
     res.status(404).json({
         message: "Route not found",
+        route: req.originalUrl,
         statusCode: 404,
         success: false,
     });
