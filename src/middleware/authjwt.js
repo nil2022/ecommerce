@@ -13,7 +13,8 @@ export const verifyToken = (req, res, next) => {
             const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
             // console.log(decoded);
             if (decoded) {
-                req.userId = decoded.id;
+                req.userId = decoded.userId;
+                req.userType = decoded.authorities;
                 next();
             } else {
                 return res.status(400).send({

@@ -9,16 +9,16 @@ const userSchema = sequelizeInstance.define("User", {
         unique: true,
     },
     email: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
             isEmail: true,
-            // is: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
         },
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
+        /** HASH THE INCOMING PASSWORD BEFORE SAVE */
         set(value) {
             this.setDataValue("password", bcrypt.hashSync(value, 10));
         }
