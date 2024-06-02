@@ -6,7 +6,7 @@ import { productSchema as Product } from "./models/product.model.js";
 import { categorySchema as Category } from "./models/categories.model.js";
 import { roleSchema as Role } from "./models/role.model.js";
 import { cartSchema as Cart } from "./models/cart.model.js";
-import { Role_User, User_Role } from "./models/association.js";
+import "./models/association.js"; // ! LEAVE THIS DECLARATION UNTOUCHED, OTHERWISE WILL CAUSE ERROR
 import { booleanValue } from "./utils/constants.js";
 
 dbConnect()

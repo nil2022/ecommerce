@@ -23,7 +23,7 @@ const router = express.Router();
 // Define the route for creating a new product
 router.post(
     "/add",
-    [validateProductData, verifyToken, isAdmin],
+    [verifyToken, validateProductData, isAdmin],
     createProduct
 );
 

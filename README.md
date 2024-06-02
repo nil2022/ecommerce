@@ -1,7 +1,7 @@
 # eCommerce App
 
-<p align="left">
-<a href="https://github.com/nil2022/ecommerce/actions/workflows/vulnerability-check.yml" target="_blank"><img src="https://github.com/nil2022/ecommerce/actions/workflows/vulnerability-check.yml/badge.svg?branch=master" alt="Node.js Vulnerability Check" /></a>
+<!-- <p align="left">
+<a href="https://github.com/nil2022/ecommerce/actions/workflows/vulnerability-check.yml" target="_blank"><img src="https://github.com/nil2022/ecommerce/actions/workflows/vulnerability-check.yml/badge.svg?branch=master" alt="Node.js Vulnerability Check" /></a> -->
 <a href="https://github.com/nil2022/ecommerce/actions/workflows/github-code-scanning/codeql" target="_blank"> <img src="https://github.com/nil2022/ecommerce/actions/workflows/github-code-scanning/codeql/badge.svg?branch=master" alt="CodeQL" /></a>
 </a>
 </p>
