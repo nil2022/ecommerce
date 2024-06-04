@@ -33,11 +33,16 @@ app.use("/ecomm/api/v1/cart", cartRoutes);
 app.use(cookieParser());
 
 app.get("/health", (req, res) => {
-    res.status(200).send("Server is up and running 🚀");
+    res.status(200).json({
+        message: "Server is up and running 🚀",
+        route: "/health",
+        statusCode: 200,
+        success: true,
+    });
 });
 
 // Route not found middleware
-app.use("*", (_, res) => {
+app.use("*", (req, res) => {
     console.log("Route not found !");
     res.status(404).json({
         message: "Route not found",
