@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import { UserModel as User } from "../models/index.js";
-export const verifyToken = (req, res, next) => {
+import chalk from "chalk";
 
+const log = console.log;
+export const verifyToken = (req, res, next) => {
     const token =
         req.cookies?.accessToken ||
         req.header("Authorization")?.replace("Bearer ", "") ||
@@ -13,7 +15,7 @@ export const verifyToken = (req, res, next) => {
             const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
             // console.log(decoded);
             if (decoded) {
-                req.userId = decoded.userId;
+                req.user = decoded;
                 req.userType = decoded.authorities;
                 next();
             } else {
@@ -22,7 +24,7 @@ export const verifyToken = (req, res, next) => {
                 });
             }
         } catch (err) {
-            console.log(err);
+            log(chalk.redBright.bgRed(err.name + ": " + err.message));
             res.status(400).send({
                 msg: "Invalid token. Please Re-Login",
             });
@@ -35,24 +37,31 @@ export const verifyToken = (req, res, next) => {
 };
 
 export async function isAdmin(req, res, next) {
-    const userId = req.userId;
+    const userId = req.user?.id || null;
 
     try {
-        const user = await User.findByPk(userId);
-        const userRoles = await user.getRoles();
-        for (let i = 0; i < userRoles.length; i++) {
-            if (
-                userRoles[i].dataValues.name === "Admin" ||
-                userRoles[i].dataValues.name === "SuperAdmin"
-            ) {
-                next();
-                return;
+        if (userId) {
+            const user = await User.findByPk(userId);
+            const userRoles = await user.getRoles();
+            for (let i = 0; i < userRoles.length; i++) {
+                if (
+                    userRoles[i].dataValues.name === "Admin" ||
+                    userRoles[i].dataValues.name === "SuperAdmin"
+                ) {
+                    next();
+                }
             }
+            log(
+                chalk.whiteBright.bgRed.bold("User does not have admin access")
+            );
+            return res.status(400).send({ msg: "Access Denied" });
+        } else {
+            return res.status(400).send({ msg: "Invalid user id" });
         }
-        res.status(400).send({ msg: "User does not have admin access" });
-        return;
     } catch (err) {
-        res.status(500).send({ msg: "Internal Server error", err });
+        log(chalk.redBright.bgRed(err.name + ": " + err.message));
+        log(chalk.grey(err.stack));
+        res.status(500).send({ msg: "Internal Server error" });
         return;
     }
 }

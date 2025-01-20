@@ -6,7 +6,7 @@ import { productSchema as Product } from "./models/product.model.js";
 import { categorySchema as Category } from "./models/categories.model.js";
 import { roleSchema as Role } from "./models/role.model.js";
 import { cartSchema as Cart } from "./models/cart.model.js";
-import "./models/association.js"; // ! LEAVE THIS DECLARATION UNTOUCHED, OTHERWISE WILL CAUSE ERROR
+// import "./models/association.js"; // ! LEAVE THIS DECLARATION UNTOUCHED, OTHERWISE WILL CAUSE ERROR
 import { booleanValue } from "./utils/constants.js";
 
 dbConnect()
@@ -22,18 +22,6 @@ dbConnect()
     
 async function initialize() {
     try {
-        await sequelizeInstance.sync({
-            /** WARNING -> (force = true) WILL DELETE ALL DATA FROM DATABASE, USE WITH CAUTION, <- WARINING */
-            force:
-                process.env.SEQUELIZE_FORCE_STATUS === "true"
-                    ? booleanValue.TRUE_VALUE
-                    : booleanValue.FALSE_VALUE,
-            logging:
-                process.env.SEQUELIZE_LOGGING_STATUS === "true"
-                    ? booleanValue.TRUE_VALUE
-                    : booleanValue.FALSE_VALUE,
-        });
-
         /** Check for existing Roles in DB */
         const existingRoles = await Role.findAll();
         // console.log(existingRoles);
@@ -52,7 +40,7 @@ async function initialize() {
             await Role.bulkCreate(defaultRoles);
         }
 
-        /** Check for exisitng Categories in DB */
+        /** Check for existing Categories in DB */
         const existingCategories = await Category.findAll();
         if (!(existingCategories.length > 0)) {
             const defaultCategories = [

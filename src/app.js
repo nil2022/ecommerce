@@ -6,11 +6,11 @@ import helmet from "helmet";
 
 const app = express();
 
-app.use(logger("dev"));
+// app.use(logger("dev"));
 app.use(helmet());
 
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,

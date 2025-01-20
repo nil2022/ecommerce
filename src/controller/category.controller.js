@@ -2,10 +2,11 @@ import { CategoriesModel as Categories } from "../models/index.js";
 
 export async function createCategory(req, res) {
     const {	name, description } = req.body;
+    console.log('req.body', req.body);
 
     try {
         const result = await Categories.create({ name, description });
-        // console.log("result", result);
+        console.log("result", result);
         return res.status(201).send({ msg: "Category has been created" , result});
     } catch (err) {
         console.log(err);

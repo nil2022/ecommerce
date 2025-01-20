@@ -4,15 +4,17 @@ import { productSchema } from "./product.model.js";
 
 const categorySchema = sequelizeInstance.define("Categories", {
     name: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(255),
         allowNull: false,
     },
     description: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT("long"),
     },
 })
 
-// categorySchema.hasMany(productSchema);
+// categorySchema.hasMany(productSchema, {foreignKey: "CategoryId"});
+
+// console.log(await categorySchema.sync({alter: true, logging: (msg) => console.log(msg)}));
 
 
 export { categorySchema };

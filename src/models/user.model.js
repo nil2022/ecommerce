@@ -1,22 +1,24 @@
 import { DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 import { sequelizeInstance } from "../config/db.config.js";
+import { roleSchema } from "./role.model.js";
+import chalk from "chalk";
 
 const userSchema = sequelizeInstance.define("User", {
     userId: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(255),
         allowNull: false,
         unique: true,
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         validate: {
             isEmail: true,
         },
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         /** HASH THE INCOMING PASSWORD BEFORE SAVE */
         set(value) {
@@ -29,7 +31,9 @@ const userSchema = sequelizeInstance.define("User", {
     // }
 })
 
-// const User_Role = userSchema.belongsToMany(roleSchema, { through: "UserRoles" });
+// userSchema.belongsToMany(roleSchema, { as: "roles", through: "UserRoles" });
+
+// console.log(await userSchema.sync({alter: true, logging: (msg) => console.log(chalk.blue(msg))}));
 
 
 export { userSchema };

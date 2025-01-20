@@ -1,25 +1,19 @@
+import chalk from "chalk";
 import { Sequelize } from "sequelize";
 
-const sequelizeInstance = new Sequelize(process.env.DB_URL_SUPABASE, {
-    pool: {
-        max: 5,
-        min: 1,
-        acquire: 30000,
-        idle: 10000,
-		
-    },
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false,
-        }
-    }
-    
+const { DB_URL_MYSQL, DATABASE_USER = 'root', DATABASE_PASSWORD = 'root', DATABASE_NAME  = 'ecomm'} =
+    process.env;
+
+const sequelizeInstance = new Sequelize(DB_URL_MYSQL, {
+  dialect: "mysql",
+  // logging: false,
+  logging: (msg) => console.log(chalk.yellow(msg)),
 });
+
 async function dbConnect() {
     await sequelizeInstance.authenticate();
     console.log("\nConnected to Hostname:", sequelizeInstance.options.host);
-	// console.log('sequelizeInstance', sequelizeInstance.options)
+    // console.log('sequelizeInstance', sequelizeInstance.options)
 }
 
 export { dbConnect, sequelizeInstance };
