@@ -26,10 +26,11 @@ const productSchema = sequelizeInstance.define("Product", {
     //         model: "Categories",
     //         key: "id"
     //     }
-    // }
+    // } 
 })
 
-productSchema.belongsTo(categorySchema, {as : "category", through: "CategoryId"})
+productSchema.belongsTo(categorySchema, {as : "category", through: "categoryId"})
+categorySchema.hasMany(productSchema, {as : "products", foreignKey: "categoryId"});
 // categorySchema.hasMany(productSchema, {as : "products", foreignKey: "CategoryId"});
 // productSchema.belongsToMany(cartSchema, { through: "CartProducts" });
 

@@ -12,8 +12,6 @@ const categorySchema = sequelizeInstance.define("Categories", {
     },
 })
 
-// categorySchema.hasMany(productSchema, {foreignKey: "CategoryId"});
-
 // console.log(await categorySchema.sync({alter: true, logging: (msg) => console.log(msg)}));
 
 

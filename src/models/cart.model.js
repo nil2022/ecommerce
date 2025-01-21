@@ -8,7 +8,8 @@ const cartSchema = sequelizeInstance.define("Cart", {
     },
 })
 
-// cartSchema.belongsToMany(productSchema, { through: "CartProducts" });
+cartSchema.belongsToMany(productSchema,  {through: 'CartProducts'});
+productSchema.belongsToMany(cartSchema, { through: "CartProducts" });
 
 // console.log(await cartSchema.sync({alter: true, logging: (msg) => console.log(msg)}));
 

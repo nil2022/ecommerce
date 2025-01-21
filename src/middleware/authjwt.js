@@ -43,12 +43,13 @@ export async function isAdmin(req, res, next) {
         if (userId) {
             const user = await User.findByPk(userId);
             const userRoles = await user.getRoles();
+
             for (let i = 0; i < userRoles.length; i++) {
                 if (
-                    userRoles[i].dataValues.name === "Admin" ||
-                    userRoles[i].dataValues.name === "SuperAdmin"
+                    userRoles[i]?.dataValues?.name === "Admin" ||
+                    userRoles[i]?.dataValues?.name === "SuperAdmin"
                 ) {
-                    next();
+                    return next();  // If admin found, proceed to next middleware
                 }
             }
             log(
@@ -61,7 +62,6 @@ export async function isAdmin(req, res, next) {
     } catch (err) {
         log(chalk.redBright.bgRed(err.name + ": " + err.message));
         log(chalk.grey(err.stack));
-        res.status(500).send({ msg: "Internal Server error" });
-        return;
+        return res.status(500).send({ msg: "Internal Server error" });
     }
 }

@@ -57,6 +57,7 @@ export async function getCart(req, res) {
     const cartId = req.params.id;
     try {
         const cart = await Cart.findByPk(cartId);
+
         if (cart) {
             const cartProducts = await cart.getProducts();
 
