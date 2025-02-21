@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelizeInstance } from "../config/db.config.js";
 import { categorySchema } from "./categories.model.js";
-import { cartSchema } from "./cart.model.js";
+// import { cartSchema } from "./cart.model.js";
 
 const productSchema = sequelizeInstance.define("Product", {
     name: {
@@ -34,7 +34,7 @@ categorySchema.hasMany(productSchema, {as : "products", foreignKey: "categoryId"
 // categorySchema.hasMany(productSchema, {as : "products", foreignKey: "CategoryId"});
 // productSchema.belongsToMany(cartSchema, { through: "CartProducts" });
 
-console.log(await productSchema.sync({alter: true, logging: (msg) => console.log(msg)}));
+// console.log(await productSchema.sync({alter: true, logging: (msg) => console.log(msg)}));
 
 
 export { productSchema };

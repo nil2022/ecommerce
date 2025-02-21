@@ -25,10 +25,10 @@ import {
     cartRoutes,
 } from "./routes/index.js";
 
-app.use("/ecomm/api/v1/auth", authRoutes);
-app.use("/ecomm/api/v1/category", categoryRoutes);
-app.use("/ecomm/api/v1/product", productRoutes);
-app.use("/ecomm/api/v1/cart", cartRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.use(cookieParser());
 

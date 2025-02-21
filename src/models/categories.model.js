@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelizeInstance } from "../config/db.config.js";
-import { productSchema } from "./product.model.js";
+// import { productSchema } from "./product.model.js";
 
 const categorySchema = sequelizeInstance.define("Categories", {
     name: {
