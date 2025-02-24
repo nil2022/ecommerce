@@ -19,7 +19,7 @@ dbConnect()
 
         // Start the server
         app.listen(env.PORT, () => {
-            console.log(`\nServer is running on this port: ${env.PORT}\n`);
+            console.log(`\nServer is running on this url => http://localhost:${env.PORT}\n`);
         });
     })
     .catch((err) => {

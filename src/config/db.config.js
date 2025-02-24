@@ -15,9 +15,6 @@ const config = {
     database: env.DB_NAME,
 };
 
-const cwd = process.cwd();
-const certPath = path.join(cwd, "public", "azure-cert.crt.pem");
-
 // Create the main Sequelize instance
 const sequelizeInstance = new Sequelize(
     config.database,
@@ -34,7 +31,6 @@ const sequelizeInstance = new Sequelize(
         dialectOptions: {
             ssl: {
                 rejectUnauthorized: false,
-                ca: fs.readFileSync(certPath),
             },
         },
     }
@@ -50,7 +46,6 @@ async function createDatabaseIfNotExists() {
         port: env.DB_PORT,
         ssl: {
             rejectUnauthorized: false,
-            ca: fs.readFileSync(certPath),
         },
     });
 

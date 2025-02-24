@@ -30,10 +30,10 @@ app.use("/api/cart", cartRoutes);
 
 app.use(cookieParser());
 
-app.get("/health", (req, res) => {
+app.get("/", (req, res) => {
     res.status(200).json({
-        message: "Server is up and running 🚀",
-        route: "/health",
+        message: "Backend is running 🚀",
+        route: "/",
         statusCode: 200,
         success: true,
     });
