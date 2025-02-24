@@ -1,5 +1,5 @@
 // utils/env.js
-import { cleanEnv, str, num, url } from "envalid";
+import { cleanEnv, str, num, url, bool } from "envalid";
 
 const env = cleanEnv(process.env, {
     // General
@@ -30,6 +30,7 @@ const env = cleanEnv(process.env, {
     DB_PASSWORD: str({ default: "root", desc: "Database password" }),
     DB_NAME: str({ default: "ecomm", desc: "Database name" }),
     DB_PORT: num({ default: 3306, desc: "Database port" }),
+    DB_SSL: bool({ default: false, desc: "Database SSL" }),
 
     // System Admin Credentials
     SYSTEM_ADMIN_USERID: str({ default: "john", desc: "System admin user ID" }),

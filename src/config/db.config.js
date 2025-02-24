@@ -3,6 +3,8 @@ import chalk from "chalk";
 import { Sequelize } from "sequelize";
 import mysql from "mysql2/promise"; // Use mysql2/promise for async/await
 import env from "../utils/env.js"; // Adjust path based on your structure
+import fs from "fs";
+import path from "path";
 
 // Define database configuration for Sequelize
 const config = {
@@ -13,13 +15,30 @@ const config = {
     database: env.DB_NAME,
 };
 
+const cwd = process.cwd();
+const certPath = path.join(cwd, "public", "azure-cert.crt.pem");
+
 // Create the main Sequelize instance
-const sequelizeInstance = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    port: config.port,
-    dialect: "mysql",
-    logging: env.NODE_ENV == 'dev' ? (msg) => console.log(chalk.yellow(msg)) : false,
-});
+const sequelizeInstance = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    {
+        host: config.host,
+        port: config.port,
+        dialect: "mysql",
+        logging:
+            env.NODE_ENV == "dev"
+                ? (msg) => console.log(chalk.yellow(msg))
+                : false,
+        dialectOptions: {
+            ssl: {
+                rejectUnauthorized: false,
+                ca: fs.readFileSync(certPath),
+            },
+        },
+    }
+);
 
 // Function to check and create database if it doesn't exist using mysql2
 async function createDatabaseIfNotExists() {
@@ -29,12 +48,18 @@ async function createDatabaseIfNotExists() {
         user: env.DB_USER,
         password: env.DB_PASSWORD,
         port: env.DB_PORT,
+        ssl: {
+            rejectUnauthorized: false,
+            ca: fs.readFileSync(certPath),
+        },
     });
 
     try {
         // Check if the database exists by querying the list of databases
-        const [rows] = await connection.query(`SHOW DATABASES LIKE '${env.DB_NAME}';`);
-        
+        const [rows] = await connection.query(
+            `SHOW DATABASES LIKE '${env.DB_NAME}';`
+        );
+
         if (rows.length === 0) {
             // Database doesn’t exist, so create it
             await connection.query(`CREATE DATABASE \`${env.DB_NAME}\`;`);
@@ -56,7 +81,7 @@ async function dbConnect() {
     try {
         await createDatabaseIfNotExists();
         await sequelizeInstance.authenticate();
-        console.log("\nConnected to Hostname:", sequelizeInstance.config.host);
+        // console.log("\nConnected to Hostname:", sequelizeInstance.config.host);
     } catch (error) {
         console.error("Unable to connect to the database:", error);
         throw error;

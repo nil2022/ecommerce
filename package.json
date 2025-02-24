@@ -48,6 +48,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
     "node-appwrite": "^14.1.0",
     "pg": "^8.13.0",
@@ -63,7 +64,7 @@
     "supertest": "^7.0.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20 <=22"
   },
   "directories": {
     "test": "tests"
