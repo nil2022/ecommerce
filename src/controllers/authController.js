@@ -64,7 +64,6 @@ export async function signUp(req, res) {
 
 export async function signIn(req, res) {
     const { userId, password } = req.body;
-    console.log("req.body: ", req.body);
 
     // Validate the userData against the schema
     const { error } = userSignInValidation.validate(req.body);

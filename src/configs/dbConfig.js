@@ -58,7 +58,7 @@ async function createDatabaseIfNotExists() {
             await connection.query(`CREATE DATABASE \`${env.DB_NAME}\`;`);
             console.log(`Database '${env.DB_NAME}' created.`);
         } else {
-            console.log(`Database '${env.DB_NAME}' already exists.`);
+            console.log(chalk.bgYellowBright.bold(`Database '${env.DB_NAME}' already exists.`));
         }
     } catch (error) {
         console.error("Error checking/creating database:", error);
