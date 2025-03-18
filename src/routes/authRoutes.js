@@ -6,8 +6,9 @@ import {
     logout,
     fetchAllUsers,
     changePassword,
-} from "../controller/auth.controller.js";
-import { checkRoles, verifyToken } from "../middleware/index.js";
+} from "#controllers/authController";
+import { checkRoles} from "#middlewares/user";
+import { verifyToken } from "#middlewares/authjwt";
 
 authRouter.post("/signup", [checkRoles], signUp);
 

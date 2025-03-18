@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { ProductModel as Products } from "../models/index.js";
+import Product from "../models/ProductSchema.js";
 import { Op } from "sequelize";
 
 const log = console.log;
@@ -14,7 +14,7 @@ export async function createProduct(req, res) {
         const quantity = productData.quantity;
         const categoryId = productData.CategoryId;
 
-        const result = await Products.create({
+        const result = await Product.create({
             name,
             description,
             cost,
@@ -30,7 +30,7 @@ export async function createProduct(req, res) {
 
 export async function getAllProduct(req, res) {
     try {
-        const result = await Products.findAll();
+        const result = await Product.findAll();
         res.status(201).send(result);
     } catch (err) {
         res.status(500).send({ msg: "Internal server error", err });
@@ -41,7 +41,7 @@ export async function getProductOnId(req, res) {
     const productId = req.query.id;
 
     try {
-        const result = await Products.findOne({
+        const result = await Product.findOne({
             where: {
                 id: productId,
             },
@@ -80,7 +80,7 @@ export async function updateProduct(req, res) {
         const cost = productData.cost;
         const quantity = productData.quantity;
 
-        const product = await Products.findOne({
+        const product = await Product.findOne({
             where: { id: productId },
         });
 
@@ -108,7 +108,7 @@ export async function updateProduct(req, res) {
 export async function deleteProduct(req, res) {
     const productId = req.query.id;
     try {
-        const getProduct = await Products.destroy({
+        const getProduct = await Product.destroy({
             where: { id: productId },
         });
         if (!getProduct) {
@@ -130,7 +130,7 @@ export async function filterBasedOnProduct(req, res) {
     const maxCost = req.query.maxCost; // ?maxCost=350
 
     if (CategoryId) {
-        const result = await Products.findAll({
+        const result = await Product.findAll({
             where: {
                 CategoryId: CategoryId,
             },
@@ -138,7 +138,7 @@ export async function filterBasedOnProduct(req, res) {
         res.send(result);
     }
     if (name) {
-        const result = await Products.findAll({
+        const result = await Product.findAll({
             where: {
                 name: name,
             },
@@ -146,7 +146,7 @@ export async function filterBasedOnProduct(req, res) {
         res.send(result);
     }
     if (minCost && maxCost) {
-        const result = await Products.findAll({
+        const result = await Product.findAll({
             where: {
                 cost: {
                     [Op.gte]: minCost,

@@ -63,12 +63,13 @@
     "supertest": "^7.0.0"
   },
   "imports": {
-    "#config/*": "./src/config/*",
-    "#controller/*": "./src/controller/*",
-    "#middleware/*": "./src/middleware/*",
-    "#model/*": "./src/model/*.model.js",
-    "#routes/*": "./src/routes/*",
-    "#utils/*": "./src/utils/*.util.js"
+    "#configs/*": "./src/configs/*.js",
+    "#controllers/*": "./src/controllers/*.js",
+    "#middlewares/*": "./src/middlewares/*.js",
+    "#models/*": "./src/models/*.js",
+    "#routes/*": "./src/routes/*.js",
+    "#utils/*": "./src/utils/*.util.js",
+    "#root/*": "./src/*.js"
   },
   "engines": {
     "node": ">=20 <=22"

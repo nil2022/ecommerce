@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { UserModel as User } from "../models/index.js";
 import chalk from "chalk";
+import User from "#models/UserSchema";
 
 const log = console.log;
 export const verifyToken = (req, res, next) => {

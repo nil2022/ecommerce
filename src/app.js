@@ -3,6 +3,8 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
+import routes from "#routes/routes";
+
 const app = express();
 
 // app.use(logger("dev"));
@@ -16,17 +18,7 @@ app.use(cors({
     credentials: true
 }))
 
-import {
-    authRoutes,
-    categoryRoutes,
-    productRoutes,
-    cartRoutes,
-} from "./routes/index.js";
-
-app.use("/api/auth", authRoutes);
-app.use("/api/category", categoryRoutes);
-app.use("/api/product", productRoutes);
-app.use("/api/cart", cartRoutes);
+app.use("/api", routes);
 
 app.use(cookieParser());
 

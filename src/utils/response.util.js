@@ -25,13 +25,13 @@ const sendResponse = (
         ...(data
             ? Array.isArray(data.results)
                 ? {
-                      data: data.results,
-                      total: data.total,
-                      currentCount: data.currentCount,
-                      ...(data.showBookButton
-                          ? { showBookButton: data.showBookButton }
-                          : {}),
-                  }
+                    data: data.results,
+                    total: data.total,
+                    currentCount: data.currentCount,
+                    ...(data.showBookButton
+                        ? { showBookButton: data.showBookButton }
+                        : {}),
+                }
                 : { data }
             : {}),
         ...(token ? { token } : {}),

@@ -1,11 +1,11 @@
 // index.js
-import { dbConnect, sequelizeInstance } from "./config/db.config.js";
-import { app } from "./app.js";
-import { userSchema as User } from "./models/user.model.js";
-import { productSchema as Product } from "./models/product.model.js";
-import { categorySchema as Category } from "./models/categories.model.js";
-import { roleSchema as Role } from "./models/role.model.js";
-import { cartSchema as Cart } from "./models/cart.model.js";
+import { dbConnect, sequelizeInstance } from "#configs/dbConfig";
+import { app } from "#root/app";
+import User from "#models/UserSchema";
+import Category from "#models/CategorySchema";
+import Product from "#models/ProductSchema";
+import Cart from "#models/CartSchema";
+import Role from "#models/RoleSchema";
 import env from "#utils/env";
 
 dbConnect()

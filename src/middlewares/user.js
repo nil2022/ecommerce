@@ -1,4 +1,4 @@
-import { RoleModel as Role } from "../models/index.js";
+import Role from "#models/RoleSchema";
 
 export async function checkRoles(req, res, next) {
     if (req.body.roles) {

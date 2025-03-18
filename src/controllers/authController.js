@@ -1,14 +1,15 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { UserModel as User, CartModel as Cart } from "../models/index.js";
 import { Op } from "sequelize";
 import sendResponse from "#utils/response";
-import { storeError } from "../utils/helpers.js";
+import { storeError } from "#utils/helpers";
 import { getData, setData } from "#utils/redis";
 import {
     userSignInValidation,
     userSignUpValidation,
-} from "../utils/validation.js";
+} from "#utils/validation";
+import User from "#models/UserSchema";
+import Cart from "#models/CartSchema";
 
 export async function signUp(req, res) {
     const { userId, email, password, roles } = req.body;

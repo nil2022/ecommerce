@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { CategoriesModel as Categories } from "../models/index.js";
+import Category from "#models/CategorySchema";
 
 const log = console.log;
 
@@ -12,7 +12,7 @@ export async function validateProductData(req, res, next) {
             return;
         }
         if (productData.CategoryId) {
-            const result = await Categories.findByPk(productData.CategoryId);
+            const result = await Category.findByPk(productData.CategoryId);
             if (result) {
                 next();
             } else {
