@@ -39,6 +39,9 @@ const env = cleanEnv(process.env, {
         desc: "System admin password",
     }),
     SYSTEM_ADMIN_EMAIL: str({ desc: "System admin email" }),
+
+    // Redis
+    REDIS_URL: url({ default: "redis://localhost:6379", desc: "Redis URL" }),
 });
 
 // Export the validated environment variables

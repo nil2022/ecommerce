@@ -2,9 +2,7 @@
 import chalk from "chalk";
 import { Sequelize } from "sequelize";
 import mysql from "mysql2/promise"; // Use mysql2/promise for async/await
-import env from "../utils/env.js"; // Adjust path based on your structure
-import fs from "fs";
-import path from "path";
+import env from "#utils/env"; // Adjust path based on your structure
 
 // Define database configuration for Sequelize
 const config = {
@@ -24,10 +22,10 @@ const sequelizeInstance = new Sequelize(
         host: config.host,
         port: config.port,
         dialect: "mysql",
-        logging:
-            env.NODE_ENV == "dev"
-                ? (msg) => console.log(chalk.yellow(msg))
-                : false,
+        // logging:
+        //     env.NODE_ENV == "dev"
+        //         ? (msg) => console.log(chalk.bgGray(msg))
+        //         : false,
         dialectOptions: {
             ssl: {
                 rejectUnauthorized: false,

@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 import { sequelizeInstance } from "../config/db.config.js";
-// import { roleSchema } from "./role.model.js";
 import chalk from "chalk";
 
 const userSchema = sequelizeInstance.define("User", {

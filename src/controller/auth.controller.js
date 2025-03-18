@@ -1,57 +1,39 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserModel as User, CartModel as Cart } from "../models/index.js";
-import * as Yup from "yup";
 import { Op } from "sequelize";
-import { roleSchema } from "../models/role.model.js";
-// import supabase from "../utils/supabase.js";
+import sendResponse from "#utils/response";
+import { storeError } from "../utils/helpers.js";
+import { getData, setData } from "#utils/redis";
+import {
+    userSignInValidation,
+    userSignUpValidation,
+} from "../utils/validation.js";
 
 export async function signUp(req, res) {
     const { userId, email, password, roles } = req.body;
 
-    // Define the custom regex pattern
-    const emailPattern = /^[a-zA-Z0-9._%-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
-
     try {
-        let userSchema = Yup.object().shape({
-            userId: Yup.string().required("UserId is required"),
-            email: Yup.string()
-                .required("Email is required")
-                .matches(emailPattern, "Invalid Email format"),
-            password: Yup.string()
-                .required("Password is required")
-                .min(6, "Password must be at least 6 characters"),
-        });
+        const { error } = userSignUpValidation.validate(req.body);
+        if (error) {
+            return sendResponse(res, 400, false, error.details[0].message);
+        }
 
-        await userSchema.validate({
-            userId,
-            email,
-            password,
-        });
-
-        /** CHECK FOR EXISTING USER USING USERID OR EMAIL IN DATABASE */
         const existingUser = await User.findOne({
             where: {
                 [Op.or]: [{ userId: userId }, { email: email }],
             },
-            // include: [
-            //     {
-            //         model: roleSchema,
-            //         as: "roles",
-            //         required: false,
-            //     },
-            // ],
         });
-        // console.log('Existing User:', existingUser)
         if (existingUser) {
             console.table({
                 message: "UserId or Email already exist",
             });
-            return res.status(400).send({
-                success: false,
-                message: "UserId or Email already exist",
-                statusCode: 400,
-            });
+            return sendResponse(
+                res,
+                400,
+                false,
+                "UserId or Email already exist"
+            );
         }
 
         const user = await User.create({ userId, email, password });
@@ -66,25 +48,29 @@ export async function signUp(req, res) {
         } else {
             await user.setRoles([1]);
         }
-
-        res.json({
-            user,
-            success: true,
-            message: "User has been created successfully",
-            statusCode: 200,
-        });
+        return sendResponse(
+            res,
+            201,
+            true,
+            "User has been created successfully",
+            user
+        );
     } catch (err) {
-        console.log(err);
-        return res.status(500).send({
-            success: false,
-            message: `${err.name}: ${err.message}`,
-            statusCode: 500,
-        });
+        storeError(err);
+        return sendResponse(res, 500, false, `${err.name}: ${err.message}`);
     }
 }
 
 export async function signIn(req, res) {
     const { userId, password } = req.body;
+    console.log("req.body: ", req.body);
+
+    // Validate the userData against the schema
+    const { error } = userSignInValidation.validate(req.body);
+
+    if (error) {
+        return sendResponse(res, 400, null, error.details[0].message);
+    }
 
     try {
         const user = await User.findOne({
@@ -99,9 +85,10 @@ export async function signIn(req, res) {
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {
                 console.log("Password not correct");
-                return res.status(400).send({
-                    msg: "Password not correct",
-                });
+                return sendResponse(res, 400, null, "Password not correct");
+                // return res.status(400).send({
+                //     msg: "Password not correct",
+                // });
             }
 
             const authorities = [];
@@ -147,34 +134,35 @@ export async function signIn(req, res) {
                 secure: true,
             };
 
-            return res
-                .status(201)
-                .cookie("accessToken", accessToken, cookieOptions)
-                .json({
-                    data: {
-                        sessionUser: finalUser,
-                        accessToken,
-                    },
-                    message: "User logged in successfully",
-                    statusCode: 200,
-                    success: true,
-                });
+            const cacheFormatData = {
+                id: user.id,
+                userId: user.userId,
+                email: user.email,
+                authorities: authorities,
+                accessToken: accessToken,
+            };
+            await setData("userData", cacheFormatData, {
+                EX: 3600, // Expiration in seconds
+                XX: true, // Only set if key exists
+            });
+
+            console.log(`await getData("userData")`, await getData("userData"));
+
+            sendResponse(
+                res,
+                200,
+                finalUser,
+                "User logged in successfully",
+                accessToken
+            );
+            // return res.set("accessToken", accessToken, cookieOptions);
         } else {
             console.log({ message: "User not found in database" });
-            return res.status(400).json({
-                success: false,
-                message: "User not found in database",
-                statusCode: 400,
-            });
+            return sendResponse(res, 400, null, "User not found in database");
         }
     } catch (err) {
         console.log(err);
-        res.status(500).send({
-            success: false,
-            message: "Internal Server Error",
-            statusCode: 500,
-            err,
-        });
+        sendResponse(res, 500, null, `Internal Server Error`);
     }
 }
 
@@ -183,11 +171,13 @@ export async function logout(req, res) {
         http: true,
         secure: true,
     };
-    return res.status(200).clearCookie("accessToken", "", cookieOptions).json({
-        msg: "User logged out successfully",
-        statusCode: 200,
-        success: true,
-    });
+    sendResponse(res, 200, null, "User logged out successfully");
+    return res.clearCookie("accessToken", "", cookieOptions);
+    // return res.status(200).clearCookie("accessToken", "", cookieOptions).json({
+    //     msg: "User logged out successfully",
+    //     statusCode: 200,
+    //     success: true,
+    // });
 }
 
 export async function fetchAllUsers(req, res) {

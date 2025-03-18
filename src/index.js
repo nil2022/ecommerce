@@ -6,12 +6,12 @@ import { productSchema as Product } from "./models/product.model.js";
 import { categorySchema as Category } from "./models/categories.model.js";
 import { roleSchema as Role } from "./models/role.model.js";
 import { cartSchema as Cart } from "./models/cart.model.js";
-import env from "./utils/env.js";
+import env from "#utils/env";
 
 dbConnect()
     .then(async () => {
         // Sync all models with the database (create tables if they don’t exist)
-        await sequelizeInstance.sync({ alter : true }); // Use { force: true } only for development to drop and recreate tables
+        await sequelizeInstance.sync(); // Use { force: true } only for development to drop and recreate tables
         console.log("Database tables synchronized.");
 
         // Run initialization logic after tables are created
