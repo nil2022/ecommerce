@@ -8,39 +8,36 @@ import {
     getProductOnId,
     updateProduct,
     deleteProduct,
-} from "../controller/product.controller.js";
+} from "#controllers/productController";
 
 // Import the middleware functions
-import {
-    validateProductData,
-    verifyToken,
-    isAdmin,
-} from "../middleware/index.js";
+import { validateProductData } from "#middlewares/product";
+import { verifyToken, isAdmin } from "#middlewares/authjwt";
 
-// Create a new instance of the Express router
-const router = express.Router();
+// Create a new instance of the Express productRouter
+const productRouter = express.Router();
 
 // Define the route for creating a new product
-router.post(
+productRouter.post(
     "/add",
     [verifyToken, validateProductData, isAdmin],
     createProduct
 );
 
 // Define the route for getting all products
-router.get("/getAll", [verifyToken], getAllProduct);
+productRouter.get("/getAll", [verifyToken], getAllProduct);
 
 // Define the route for filtering products based on some criteria
-router.get("/filter", [verifyToken], filterBasedOnProduct);
+productRouter.get("/filter", [verifyToken], filterBasedOnProduct);
 
 // Define the route for getting a specific product by its ID
-router.get("/getOne", [verifyToken], getProductOnId);
+productRouter.get("/getOne", [verifyToken], getProductOnId);
 
 // Define the route for updating a product by its ID
-router.patch("/updateOne", [verifyToken, isAdmin], updateProduct);
+productRouter.patch("/updateOne", [verifyToken, isAdmin], updateProduct);
 
 // Define the route for deleting a product by its ID
-router.delete("/deleteOne", [verifyToken, isAdmin], deleteProduct);
+productRouter.delete("/deleteOne", [verifyToken, isAdmin], deleteProduct);
 
 // Export the routes object
-export default router;
+export default productRouter;

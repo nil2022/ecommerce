@@ -8,7 +8,6 @@
   "scripts": {
     "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
-    "build": "npm install bcrypt dotenv express jsonwebtoken mysql2 sequelize sequelize-cli morgan pg --save",
     "start": "node -r dotenv/config src/index.js",
     "dev": "nodemon -r dotenv/config src/index.js"
   },
@@ -37,21 +36,24 @@
   },
   "homepage": "https://github.com/nil2022/js-basics.git#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
     "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.7",
+    "chalk": "^5.4.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "helmet": "^8.0.0",
+    "dotenv": "^16.4.5",
+    "envalid": "^8.0.0",
+    "express": "^4.21.0",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "node-appwrite": "^15.0.0",
-    "mysql2": "^3.12.0",
-    "pg": "^8.13.3",
-    "sequelize": "^6.37.5",
-    "sequelize-cli": "^6.6.2",
-    "yup": "^1.6.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.3",
+    "node-appwrite": "^14.1.0",
+    "pg": "^8.13.0",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
@@ -60,8 +62,17 @@
     "prettier": "^3.5.2",
     "supertest": "^7.0.0"
   },
+  "imports": {
+    "#configs/*": "./src/configs/*.js",
+    "#controllers/*": "./src/controllers/*.js",
+    "#middlewares/*": "./src/middlewares/*.js",
+    "#models/*": "./src/models/*.js",
+    "#routes/*": "./src/routes/*.js",
+    "#utils/*": "./src/utils/*.util.js",
+    "#root/*": "./src/*.js"
+  },
   "engines": {
-    "node": ">=18"
+    "node": ">=20 <=22"
   },
   "directories": {
     "test": "tests"

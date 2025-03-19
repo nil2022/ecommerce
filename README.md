@@ -67,7 +67,7 @@ To run the eCommerce app, you need to have the following software/database insta
 6. Access the app in your web browser:
    
    ```bash
-   http://localhost:3000
+   http://localhost:8000
    ```
 ## Usage
 

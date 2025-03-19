@@ -1,11 +1,12 @@
-import { CategoriesModel as Categories } from "../models/index.js";
+import Category from "../models/CategorySchema.js";
 
 export async function createCategory(req, res) {
     const {	name, description } = req.body;
+    console.log('req.body', req.body);
 
     try {
-        const result = await Categories.create({ name, description });
-        // console.log("result", result);
+        const result = await Category.create({ name, description });
+        console.log("result", result);
         return res.status(201).send({ msg: "Category has been created" , result});
     } catch (err) {
         console.log(err);
@@ -15,7 +16,7 @@ export async function createCategory(req, res) {
 
 export async function getAllCategory(req, res) {
     try {
-        const result = await Categories.findAll();
+        const result = await Category.findAll();
         res.send(result);
     } catch (err) {
         console.log("err in getting categories", err);
@@ -27,7 +28,7 @@ export async function getCategoryOnId(req, res) {
     const categoryId = req.query.id;
 	
     try {
-        const result = await Categories.findOne({
+        const result = await Category.findOne({
             where: {
                 id: categoryId,
             },
@@ -46,7 +47,7 @@ export async function getCategoryOnId(req, res) {
 export async function updateCategory(req, res) {
     const categoryId = req.query.id;
     try {
-        const result = await Categories.findOne({
+        const result = await Category.findOne({
             where: {
                 id: categoryId,
             },
@@ -71,7 +72,7 @@ export async function updateCategory(req, res) {
 export async function deleteCategory(req, res) {
     const categoryId = req.query.id;
     try {
-        const result = await Categories.destroy({
+        const result = await Category.destroy({
             where: {
                 id: categoryId,
             },

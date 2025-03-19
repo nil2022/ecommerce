@@ -1,5 +1,5 @@
-const {app} = require('../../app')
-const request = require('supertest')
+import app from '#root/app';
+import supertest from 'supertest';
 
 test('getAllProductsAPI', async()=>{
 	const API_END_POINT = '/ecomm/api/v1/products';
