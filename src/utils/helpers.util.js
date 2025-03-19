@@ -6,6 +6,9 @@ import Category from "#models/CategorySchema";
 import Product from "#models/ProductSchema";
 import User from "#models/UserSchema";
 import Cart from "#models/CartSchema";
+import mysql from "mysql2/promise";
+import env from "#utils/env";
+import sequelize from "#root/sequelize";
 
 /**Function to store error in error log file */
 export const storeError = (error) => {
@@ -253,5 +256,48 @@ export async function initialize() {
     } catch (err) {
         console.error("Initialization failed:", err);
         throw err; // Rethrow to catch in the outer promise chain
+    }
+}
+
+/** Function to check and create database if it doesn't exist using mysql2 */
+export async function createDatabaseIfNotExists() {
+    // Create a raw MySQL connection without specifying a database
+    const connection = await mysql.createConnection({
+        host: env.DB_HOST,
+        user: env.DB_USER,
+        password: env.DB_PASSWORD,
+        port: env.DB_PORT,
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    try {
+        // Check if the database exists by querying the list of databases
+        const [rows] = await connection.query(
+            `SHOW DATABASES LIKE '${env.DB_NAME}';`
+        );
+
+        if (rows.length === 0) {
+            // Database doesn’t exist, so create it
+            await connection.query(`CREATE DATABASE \`${env.DB_NAME}\`;`);
+            console.log(`Database '${env.DB_NAME}' created.`);
+            await sequelize.sync(); // Sync all models with the database
+            console.log(
+                chalk.bgGreenBright.white("\nDatabase tables synchronized !!\n")
+            );
+        } else {
+            console.log(
+                chalk.bgYellowBright.bold(
+                    `Database '${env.DB_NAME}' already exists.`
+                )
+            );
+        }
+    } catch (error) {
+        console.error("Error checking/creating database:", error);
+        throw error;
+    } finally {
+        // Close the raw MySQL connection
+        await connection.end();
     }
 }

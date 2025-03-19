@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import { sequelizeInstance } from "../configs/dbConfig.js";
+import sequelize from "#root/sequelize";
 
-const Category = sequelizeInstance.define(
+const Category = sequelize.define(
     "Categories",
     {
         name: {
@@ -14,12 +14,12 @@ const Category = sequelizeInstance.define(
         created_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     {

@@ -9,7 +9,8 @@
     "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
     "start": "node -r dotenv/config src/index.js",
-    "dev": "nodemon -r dotenv/config src/index.js"
+    "dev": "nodemon -r dotenv/config src/index.js",
+    "sync": "node -r dotenv/config src/sequelize.js"
   },
   "repository": {
     "type": "git",

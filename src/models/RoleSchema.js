@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
-import { sequelizeInstance } from "../configs/dbConfig.js";
+import sequelize from "#root/sequelize";
 import chalk from "chalk";
-import User from "./UserSchema.js";
+import User from "#models/UserSchema";
 
-const Role = sequelizeInstance.define(
+const Role = sequelize.define(
     "Role",
     {
         name: {
@@ -14,12 +14,12 @@ const Role = sequelizeInstance.define(
         created_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     {
@@ -37,11 +37,11 @@ Role.belongsToMany(User, {
         timestamps: false,
         created_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     foreignKey: "roleId",
@@ -54,11 +54,11 @@ User.belongsToMany(Role, {
         timestamps: false,
         created_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     foreignKey: "userId",

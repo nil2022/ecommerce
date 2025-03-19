@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import { sequelizeInstance } from "../configs/dbConfig.js";
-import Product from "./ProductSchema.js";
+import sequelize from "#root/sequelize";
+import Product from "#models/ProductSchema";
 
-const Cart = sequelizeInstance.define(
+const Cart = sequelize.define(
     "Cart",
     {
         cost: {
@@ -11,12 +11,12 @@ const Cart = sequelizeInstance.define(
         created_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     {
@@ -34,11 +34,11 @@ Cart.belongsToMany(Product, {
         timestamps: false,
         created_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     foreignKey: "cartId",
@@ -51,11 +51,11 @@ Product.belongsToMany(Cart, {
         timestamps: false,
         created_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     foreignKey: "productId",
