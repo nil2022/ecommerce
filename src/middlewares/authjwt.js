@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import chalk from "chalk";
 import User from "#models/UserSchema";
+import sendResponse from "#utils/response";
 
 const log = console.log;
 export const verifyToken = (req, res, next) => {
@@ -19,20 +20,14 @@ export const verifyToken = (req, res, next) => {
                 req.userType = decoded.authorities;
                 next();
             } else {
-                return res.status(400).send({
-                    msg: "Auth token has expired. Please Re-Login",
-                });
+                return sendResponse(res, 400, null, "Token expired. Please Re-Login");
             }
         } catch (err) {
             log(chalk.redBright.bgRed(err.name + ": " + err.message));
-            res.status(400).send({
-                msg: "Invalid token. Please Re-Login",
-            });
-            return;
+            return sendResponse(res, 400, null, "Invalid token. Please Re-Login");
         }
     } else {
-        res.status(401).send({ msg: "Auth token is missing" });
-        return;
+        return sendResponse(res, 401, null, "Auth token is missing");
     }
 };
 
@@ -49,7 +44,7 @@ export async function isAdmin(req, res, next) {
                     userRoles[i]?.dataValues?.name === "Admin" ||
                     userRoles[i]?.dataValues?.name === "SuperAdmin"
                 ) {
-                    return next();  // If admin found, proceed to next middleware
+                    return next(); // If admin found, proceed to next middleware
                 }
             }
             log(

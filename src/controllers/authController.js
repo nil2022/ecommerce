@@ -4,14 +4,11 @@ import { Op } from "sequelize";
 import sendResponse from "#utils/response";
 import { storeError } from "#utils/helpers";
 import { getData, setData } from "#utils/redis";
-import {
-    userSignInValidation,
-    userSignUpValidation,
-} from "#utils/validation";
+import { userSignInValidation, userSignUpValidation } from "#utils/validation";
 import User from "#models/UserSchema";
 import Cart from "#models/CartSchema";
 
-export async function signUp(req, res) {
+export async function login(req, res) {
     const { userId, email, password, roles } = req.body;
 
     try {
@@ -77,18 +74,12 @@ export async function signIn(req, res) {
             where: {
                 userId: userId,
             },
-            // where: {
-            //     [Op.or]: [{ userId: userId }],
-            // },
         });
         if (user) {
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {
                 console.log("Password not correct");
                 return sendResponse(res, 400, null, "Password not correct");
-                // return res.status(400).send({
-                //     msg: "Password not correct",
-                // });
             }
 
             const authorities = [];
@@ -148,14 +139,15 @@ export async function signIn(req, res) {
 
             console.log(`await getData("userData")`, await getData("userData"));
 
-            sendResponse(
+            res.cookie("accessToken", accessToken, cookieOptions);
+
+            return sendResponse(
                 res,
                 200,
                 finalUser,
                 "User logged in successfully",
                 accessToken
             );
-            // return res.set("accessToken", accessToken, cookieOptions);
         } else {
             console.log({ message: "User not found in database" });
             return sendResponse(res, 400, null, "User not found in database");
@@ -171,13 +163,14 @@ export async function logout(req, res) {
         http: true,
         secure: true,
     };
-    sendResponse(res, 200, null, "User logged out successfully");
-    return res.clearCookie("accessToken", "", cookieOptions);
+    // sendResponse(res, 200, null, "User logged out successfully");
+    res.clearCookie("accessToken", "", cookieOptions);
     // return res.status(200).clearCookie("accessToken", "", cookieOptions).json({
     //     msg: "User logged out successfully",
     //     statusCode: 200,
     //     success: true,
     // });
+    return sendResponse(res, 200, null, "User logged out successfully");
 }
 
 export async function fetchAllUsers(req, res) {

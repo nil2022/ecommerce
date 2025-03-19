@@ -9,6 +9,7 @@ import Cart from "#models/CartSchema";
 import mysql from "mysql2/promise";
 import env from "#utils/env";
 import sequelize from "#root/sequelize";
+import sendResponse from "#utils/response";
 
 /**Function to store error in error log file */
 export const storeError = (error) => {
@@ -299,5 +300,28 @@ export async function createDatabaseIfNotExists() {
     } finally {
         // Close the raw MySQL connection
         await connection.end();
+    }
+}
+
+export async function checkRoles(req, res, next) {
+    if (!req.body.roles) return next();
+
+    try {
+        const findRoleFromDB = await Role.findAll({ attributes: ["id"] });
+
+        if (!findRoleFromDB.length) {
+            return sendResponse(res, 500, null, "Internal server error, Role not found");
+        }
+
+        const dbRoleIds = findRoleFromDB.map((role) => role.dataValues.id);
+        const allRolesExist = req.body.roles.every((roleId) =>
+            dbRoleIds.includes(Number(roleId))
+        );
+
+        return allRolesExist
+            ? next()
+            : sendResponse(res, 400, null, "Role not found");
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error, Role not found");
     }
 }

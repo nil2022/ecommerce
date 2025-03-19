@@ -1,16 +1,16 @@
 import express from "express";
 const authRouter = express.Router();
 import {
-    signUp,
+    login,
     signIn,
     logout,
     fetchAllUsers,
     changePassword,
 } from "#controllers/authController";
-import { checkRoles} from "#middlewares/user";
+import { checkRoles} from "#utils/helpers";
 import { verifyToken } from "#middlewares/authjwt";
 
-authRouter.post("/signup", [checkRoles], signUp);
+authRouter.post("/signup", [checkRoles], login);
 
 authRouter.post("/login", signIn);
 
