@@ -1,7 +1,7 @@
 import express from "express";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
-import helmet from "helmet";
+// import helmet from "helmet";
 
 import routes from "#routes/routes";
 import sendResponse from "#utils/response";
@@ -9,7 +9,7 @@ import sendResponse from "#utils/response";
 const app = express();
 
 // app.use(logger("dev"));
-app.use(helmet());
+// app.use(helmet());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());

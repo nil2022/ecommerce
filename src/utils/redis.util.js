@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import env from '#utils/env';
+import env from "#utils/env";
 
 // Redis connection configuration
 const redisConfig = {
@@ -8,7 +8,7 @@ const redisConfig = {
         tls: true,
         rejectUnauthorized: false, // For self-signed certificates
         connectTimeout: 5000, // 5 seconds
-        reconnectStrategy: (retries) => Math.min(retries * 100, 3000)
+        reconnectStrategy: (retries) => Math.min(retries * 100, 3000),
     },
 };
 
@@ -51,7 +51,13 @@ async function getRedisClient() {
  * @param {object} [options] - Redis SET options
  * @returns {Promise<boolean>} True if successful
  */
-export async function setData(key, value, options = {}) {
+export async function setData(
+    key,
+    value,
+    options = {
+        EX: 3600, // Expiration in seconds
+    }
+) {
     try {
         const client = await getRedisClient();
         const serializedValue =
