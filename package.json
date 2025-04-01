@@ -52,7 +52,7 @@
     "node-appwrite": "^14.1.0",
     "pg": "^8.13.0",
     "redis": "^4.7.0",
-    "sequelize": "^6.37.3",
+    "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
