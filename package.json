@@ -51,7 +51,7 @@
     "mysql2": "^3.14.0",
     "node-appwrite": "^14.1.0",
     "pg": "^8.14.1",
-    "redis": "^4.7.0",
+    "redis": "^5.0.0",
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.2"
   },
