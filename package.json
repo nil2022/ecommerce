@@ -3,62 +3,58 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "ecommerce project",
-  "main": "index.js",
+  "description": "Node.js/Express REST API for an e-commerce backend with MySQL (Sequelize), Redis caching, JWT authentication, role-based access control, and product/category/cart management.",
+  "main": "src/index.js",
   "scripts": {
-    "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
-    "test:cov": "cross-env NODE_ENV=test jest --coverage",
-    "start": "node --env-file=.env src/index.js",
     "dev": "node --env-file=.env --watch src/index.js",
-    "sync": "node --env-file=.env src/sequelize.js"
+    "start": "node --env-file=.env src/index.js",
+    "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
+    "test:cov": "cross-env NODE_ENV=test jest --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nil2022/js-basics.git"
+    "url": "git+https://github.com/nil2022/ecommerce.git"
   },
   "keywords": [
     "nodejs",
     "express",
     "sequelize",
-    "mysql",
-    "pg",
-    "sequelize-cli",
-    "nodemon",
+    "mysql2",
     "bcrypt",
     "jsonwebtoken",
     "morgan",
-    "dotenv",
+    "cors",
+    "cookie-parser",
+    "joi",
+    "envalid",
+    "redis",
+    "node-cron",
     "jest"
   ],
   "author": "Nilanjan Haldar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nil2022/js-basics/issues"
+    "url": "https://github.com/nil2022/ecommerce/issues"
   },
-  "homepage": "https://github.com/nil2022/js-basics.git#readme",
+  "homepage": "https://github.com/nil2022/ecommerce.git#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "chalk": "^5.4.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
     "envalid": "^8.0.0",
     "express": "^5.1.0",
-    "helmet": "^7.1.0",
     "joi": "^18.2.1",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.11.0",
-    "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
-    "pg": "^8.13.0",
+    "node-cron": "^3.0.3",
     "redis": "^4.7.0",
-    "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2"
+    "sequelize": "^6.37.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "jest": "^29.7.0",
-    "nodemon": "^3.1.10",
     "prettier": "^3.5.2",
     "supertest": "^7.1.0"
   },
