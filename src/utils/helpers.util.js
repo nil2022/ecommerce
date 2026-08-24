@@ -265,12 +265,12 @@ export async function createDatabaseIfNotExists() {
     // Create a raw MySQL connection without specifying a database
     const connection = await mysql.createConnection({
         host: env.DB_HOST,
-        user: env.DB_USER,
-        password: env.DB_PASSWORD,
+        user: "root",
+        password: "",
         port: env.DB_PORT,
-        ssl: {
-            rejectUnauthorized: false,
-        },
+        ...(env.DB_SSL
+            ? { ssl: { require: true, rejectUnauthorized: false } }
+            : {}),
     });
 
     try {
