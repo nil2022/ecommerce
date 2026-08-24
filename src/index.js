@@ -9,9 +9,10 @@ import chalk from "chalk";
 dbConnect()
     .then(async () => {
         
-        // Sync all models with the database (create tables if they don’t exist)
-        // await sequelize.sync(); // Use { force: true } only for development to drop and recreate tables
-        // console.log(chalk.bgGreenBright.white('\nDatabase tables synchronized !!\n'));
+        // Sync all models with the database (create tables if they don’t exist).
+        // No force/alter: safe for production — only creates missing tables, never drops data.
+        await sequelize.sync();
+        console.log(chalk.bgGreenBright.white('\nDatabase tables synchronized !!\n'));
 
         /** Initalize app with default data after tables are created*/
         await initialize();
@@ -19,7 +20,7 @@ dbConnect()
         // Start the server
         app.listen(env.PORT, () => {
             console.log(
-                `\nServer is running on this url => http://localhost:${env.PORT}\n`
+                `Access server at => http://localhost:${env.PORT}`
             );
         });
     })
