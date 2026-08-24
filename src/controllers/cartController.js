@@ -1,5 +1,6 @@
-import Cart from "../models/CartSchema.js";
-import Product from "../models/ProductSchema.js";
+import Cart from "#models/CartSchema";
+import Product from "#models/ProductSchema";
+import sendResponse from "#utils/response";
 
 export async function updateCart(req, res) {
     const cartId = req.params.id;
@@ -32,22 +33,16 @@ export async function updateCart(req, res) {
                         description: cartProduct[i].dataValues.description,
                     });
                 }
-                await Cart.update(
-                    { cost: totalCost },
-                    { where: { id: cartId } }
-                );
-                return res.send({ totalCost, addedProduct });
+                await Cart.update({ cost: totalCost }, { where: { id: cartId } });
+                return sendResponse(res, 200, { totalCost, addedProduct }, "Cart updated successfully");
             } else {
-                console.log("Product does not exist");
-                return res.status(400).send({ msg: "Product does not exist" });
+                return sendResponse(res, 400, null, "Product does not exist");
             }
         } else {
-            console.log("Cart does not exist");
-            return res.status(400).send({ msg: "Cart does not exist" });
+            return sendResponse(res, 400, null, "Cart does not exist");
         }
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send({ msg: "Internal server error" });
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }
 
@@ -72,13 +67,11 @@ export async function getCart(req, res) {
                     description: cartProduct[i].dataValues.description,
                 });
             }
-            return res.send({ totalCost, addedProduct });
+            return sendResponse(res, 200, { totalCost, addedProduct }, "Cart fetched successfully");
         } else {
-            console.log("Cart does not exist");
-            return res.status(400).send({ msg: "Cart does not exist" });
+            return sendResponse(res, 400, null, "Cart does not exist");
         }
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send({ msg: "Internal server error", err });
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }

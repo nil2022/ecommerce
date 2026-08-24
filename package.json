@@ -8,8 +8,9 @@
   "scripts": {
     "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "test:cov": "cross-env NODE_ENV=test jest --coverage",
-    "start": "node -r dotenv/config src/index.js",
-    "dev": "nodemon -r dotenv/config src/index.js"
+    "start": "node --env-file=.env src/index.js",
+    "dev": "node --env-file=.env --watch src/index.js",
+    "sync": "node --env-file=.env src/sequelize.js"
   },
   "repository": {
     "type": "git",
@@ -48,12 +49,11 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.11.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.14.1",
-    "node-appwrite": "^17.0.0",
-    "pg": "^8.16.0",
-    "redis": "^5.0.0",
-    "sequelize": "^6.37.8",
-    "sequelize-cli": "^6.6.3"
+    "mysql2": "^3.11.3",
+    "pg": "^8.13.0",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
@@ -72,7 +72,7 @@
     "#root/*": "./src/*.js"
   },
   "engines": {
-    "node": ">=20 <=22"
+    "node": ">=22"
   },
   "directories": {
     "test": "tests"

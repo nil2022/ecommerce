@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
-import { sequelizeInstance } from "../configs/dbConfig.js";
+import sequelize from "#configs/sequelizeConfig";
 import chalk from "chalk";
 
-const User = sequelizeInstance.define(
+const User = sequelize.define(
     "User",
     {
         userId: {
@@ -14,9 +14,6 @@ const User = sequelizeInstance.define(
         email: {
             type: DataTypes.STRING(255),
             allowNull: false,
-            validate: {
-                isEmail: true,
-            },
         },
         password: {
             type: DataTypes.STRING(255),
@@ -29,12 +26,12 @@ const User = sequelizeInstance.define(
         created_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updated_at: {
             type: DataTypes.DATE,
             allowNull: true,
-            defaultValue: sequelizeInstance.literal("CURRENT_TIMESTAMP"),
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
         },
     },
     {

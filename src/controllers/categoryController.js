@@ -1,32 +1,29 @@
-import Category from "../models/CategorySchema.js";
+import Category from "#models/CategorySchema";
+import sendResponse from "#utils/response";
 
 export async function createCategory(req, res) {
-    const {	name, description } = req.body;
-    console.log('req.body', req.body);
+    const { name, description } = req.body;
 
     try {
         const result = await Category.create({ name, description });
-        console.log("result", result);
-        return res.status(201).send({ msg: "Category has been created" , result});
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send({ msg: "Internal server error" });
+        return sendResponse(res, 201, result, "Category created successfully");
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }
 
 export async function getAllCategory(req, res) {
     try {
         const result = await Category.findAll();
-        res.send(result);
-    } catch (err) {
-        console.log("err in getting categories", err);
-        res.status(500).send({ msg: "Internal server error" });
+        return sendResponse(res, 200, result, "Categories fetched successfully");
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }
 
 export async function getCategoryOnId(req, res) {
     const categoryId = req.query.id;
-	
+
     try {
         const result = await Category.findOne({
             where: {
@@ -34,13 +31,11 @@ export async function getCategoryOnId(req, res) {
             },
         });
         if (result == null) {
-            res.status(400).send({ msg: "category id does not exist" });
-            return;
+            return sendResponse(res, 400, null, "Category id does not exist");
         }
-        res.send(result);
-    } catch (err) {
-        console.log("err in getting categories based on ID", err);
-        res.status(500).send({ msg: "Internal server error" });
+        return sendResponse(res, 200, result, "Category fetched successfully");
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }
 
@@ -58,14 +53,12 @@ export async function updateCategory(req, res) {
 
             result.save();
 
-            res.send({ msg: "category updated", updatedCategory: result });
+            return sendResponse(res, 200, result, "Category updated successfully");
         } else {
-            console.log("category id does not exist");
-            res.status(400).send({ msg: "category id does not exist" });
+            return sendResponse(res, 400, null, "Category id does not exist");
         }
-    } catch (err) {
-        console.log("err in getting categories", err);
-        res.status(500).send({ msg: "Internal server error" });
+    } catch (error) {
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }
 
@@ -78,12 +71,10 @@ export async function deleteCategory(req, res) {
             },
         });
         if (!result) {
-            res.status(400).send({ msg: "category id does not exist" });
-            return;
+            return sendResponse(res, 400, null, "Category id does not exist");
         }
-        res.send({ msg: "category deleted"});
+        return sendResponse(res, 200, null, "Category deleted successfully");
     } catch (err) {
-        console.log(err);
-        res.status(500).send({ msg: "Internal server error" });
+        return sendResponse(res, 500, null, "Internal server error");
     }
 }

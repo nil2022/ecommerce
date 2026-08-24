@@ -1,22 +1,16 @@
 import express from "express";
 const authRouter = express.Router();
-import {
-    signUp,
-    signIn,
-    logout,
-    fetchAllUsers,
-    changePassword,
-} from "#controllers/authController";
-import { checkRoles} from "#middlewares/user";
+import { login, logout, fetchAllUsers, changePassword, register } from "#controllers/authController";
+import { checkRoles } from "#utils/helpers";
 import { verifyToken } from "#middlewares/authjwt";
 
-authRouter.post("/signup", [checkRoles], signUp);
+authRouter.post("/register", [checkRoles], register);
 
-authRouter.post("/login", signIn);
+authRouter.post("/login", login);
 
 authRouter.get("/all-users", verifyToken, fetchAllUsers);
 
-authRouter.post("/change-password", verifyToken, changePassword);
+authRouter.patch("/change-password", verifyToken, changePassword);
 
 authRouter.get("/logout", verifyToken, logout);
 

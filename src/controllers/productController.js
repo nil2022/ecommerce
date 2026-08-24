@@ -1,8 +1,7 @@
 import chalk from "chalk";
-import Product from "../models/ProductSchema.js";
+import Product from "#models/ProductSchema";
 import { Op } from "sequelize";
-
-const log = console.log;
+import sendResponse from "#utils/response";
 
 export async function createProduct(req, res) {
     const productData = req.body;
@@ -21,19 +20,18 @@ export async function createProduct(req, res) {
             quantity,
             categoryId,
         });
-        return res.status(200).send({ msg: "Product got created", result });
-    } catch (err) {
-		log(chalk.redBright.bgRed(err.name + ": " + err.message));
-        return res.status(500).send({ msg: "Internal server error"});
+        return sendResponse(res, 200, result, "Product got created");
+    } catch (error) {
+        return sendResponse(res, 500, error, "Internal server error");
     }
 }
 
 export async function getAllProduct(req, res) {
     try {
         const result = await Product.findAll();
-        res.status(201).send(result);
-    } catch (err) {
-        res.status(500).send({ msg: "Internal server error", err });
+        return sendResponse(res, 200, result, "All products");
+    } catch (error) {
+        return sendResponse(res, 500, error, "Internal server error");
     }
 }
 
@@ -47,12 +45,11 @@ export async function getProductOnId(req, res) {
             },
         });
         if (result == null) {
-            res.status(400).send({ msg: "product id does not exist" });
-            return;
+            return sendResponse(res, 400, null, "Product id does not exist");
         }
-        res.send(result);
-    } catch (err) {
-        res.status(500).send({ msg: "Internal server error", err });
+        return sendResponse(res, 200, result, "Product fetched successfully");
+    } catch (error) {
+        return sendResponse(res, 500, error, "Internal server error");
     }
 }
 
@@ -68,10 +65,7 @@ export async function updateProduct(req, res) {
             productData.description
         )
     ) {
-        res.status(400).send({
-            msg: "Name, Cost, Quantity & description is missing",
-        });
-        return;
+        return sendResponse(res, 400, null, "Please provide all the fields");
     }
 
     try {
@@ -92,13 +86,17 @@ export async function updateProduct(req, res) {
 
             product.save();
 
-            res.send({ msg: "product got updated successfully" });
+            return sendResponse(
+                res,
+                200,
+                product,
+                "Product updated successfully"
+            );
         } else {
-            res.status(400).send({ msg: "product id does not exist" });
+            return sendResponse(res, 400, null, "Product id does not exist");
         }
-    } catch (err) {
-        console.log("err", err);
-        res.status(500).send({ msg: "Internal server error", err });
+    } catch (error) {
+        return sendResponse(res, 500, error, "Internal server error");
     }
 }
 
@@ -112,12 +110,11 @@ export async function deleteProduct(req, res) {
             where: { id: productId },
         });
         if (!getProduct) {
-            return res.status(400).send({ msg: "product id does not exist" });
+            return sendResponse(res, 400, null, "Product id does not exist");
         }
-        return res.send({ msg: "product delete successfully" });
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send({ msg: "Internal server error" });
+        return sendResponse(res, 200, null, "Product deleted successfully");
+    } catch (error) {
+        return sendResponse(res, 500, error,"Internal server error");
     }
 }
 
@@ -135,7 +132,7 @@ export async function filterBasedOnProduct(req, res) {
                 CategoryId: CategoryId,
             },
         });
-        res.send(result);
+        return sendResponse(res, 200, result, "Data fetched successfully");
     }
     if (name) {
         const result = await Product.findAll({
@@ -143,7 +140,7 @@ export async function filterBasedOnProduct(req, res) {
                 name: name,
             },
         });
-        res.send(result);
+        return sendResponse(res, 200, result, "Data fetched successfully");
     }
     if (minCost && maxCost) {
         const result = await Product.findAll({
@@ -155,9 +152,9 @@ export async function filterBasedOnProduct(req, res) {
             },
         });
 
-        res.send(result);
+        return sendResponse(res, 200, result, "Data fetched successfully");
     } else if (minCost) {
-        const result = await Products.findAll({
+        const result = await Product.findAll({
             where: {
                 cost: {
                     [Op.gte]: minCost,
@@ -165,9 +162,9 @@ export async function filterBasedOnProduct(req, res) {
             },
         });
 
-        res.send(result);
+        return sendResponse(res, 200, result, "Data fetched successfully");
     } else if (maxCost) {
-        const result = await Products.findAll({
+        const result = await Product.findAll({
             where: {
                 cost: {
                     [Op.lte]: maxCost,
@@ -175,9 +172,9 @@ export async function filterBasedOnProduct(req, res) {
             },
         });
 
-        res.send(result);
+        return sendResponse(res, 200, result, "Data fetched successfully");
     } else {
-        const result = await Products.findAll();
-        res.send(result);
+        const result = await Product.findAll();
+        return sendResponse(res, 200, result, "Data fetched successfully");
     }
 }
