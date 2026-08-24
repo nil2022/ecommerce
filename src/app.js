@@ -1,17 +1,18 @@
 import express from "express";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
+import logger from "morgan";
 // import helmet from "helmet";
 
-import routes from "#routes/routes";
+import routes from "#routes/index";
 import sendResponse from "#utils/response";
 
 const app = express();
 
-// app.use(logger("dev"));
+app.use(logger("dev"));
 // app.use(helmet());
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 app.use(cookieParser());
 
 app.use(cors({
@@ -28,7 +29,6 @@ app.get("/", (req, res) => {
 
 // Route not found middleware
 app.use("*", (req, res) => {
-    console.log("Route not found !");
     return sendResponse(res, 404, null, "Route not found");
 });
 

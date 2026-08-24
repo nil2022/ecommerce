@@ -18,11 +18,7 @@ import { verifyToken, isAdmin } from "#middlewares/authjwt";
 const productRouter = express.Router();
 
 // Define the route for creating a new product
-productRouter.post(
-    "/add",
-    [verifyToken, validateProductData, isAdmin],
-    createProduct
-);
+productRouter.post("/add", [verifyToken, validateProductData, isAdmin], createProduct);
 
 // Define the route for getting all products
 productRouter.get("/getAll", [verifyToken], getAllProduct);

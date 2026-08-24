@@ -12,11 +12,7 @@ import { verifyToken, isAdmin } from "#middlewares/authjwt";
 
 const categoryRouter = express.Router();
 
-categoryRouter.post(
-    "/add",
-    [checkNameForCategory, verifyToken, isAdmin],
-    createCategory
-);
+categoryRouter.post("/add", [checkNameForCategory, verifyToken, isAdmin], createCategory);
 
 categoryRouter.get("/getAll", [verifyToken], getAllCategory);
 

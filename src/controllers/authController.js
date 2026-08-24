@@ -7,6 +7,7 @@ import { getData, setData } from "#utils/redis";
 import { userSignInValidation, userSignUpValidation } from "#utils/validation";
 import User from "#models/UserSchema";
 import Cart from "#models/CartSchema";
+import chalk from "chalk";
 
 export async function register(req, res) {
     const { userId, email, password, roles } = req.body;
@@ -23,9 +24,7 @@ export async function register(req, res) {
             },
         });
         if (existingUser) {
-            console.table({
-                message: "UserId or Email already exist",
-            });
+            console.log(chalk.red("UserId or Email already exist"));
             return sendResponse(res, 400, false, "UserId or Email already exist");
         }
 
