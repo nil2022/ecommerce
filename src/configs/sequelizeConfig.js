@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize"; // Use mysql2/promise for async/await
 import env from "#utils/env"; // Adjust path based on your structure
-import chalk from "chalk";
 
 // Define database configuration for Sequelize
 const config = {
@@ -25,17 +24,12 @@ const dialectOptions = env.DB_SSL
     : {};
 
 // Create the main Sequelize instance
-const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    {
-        host: config.host,
-        port: config.port,
-        dialect: "mysql",
-        logging: false,
-        dialectOptions,
-    }
-);
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: config.host,
+    port: config.port,
+    dialect: "mysql",
+    logging: false,
+    dialectOptions,
+});
 
 export default sequelize;

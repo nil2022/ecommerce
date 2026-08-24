@@ -1,6 +1,6 @@
 // index.js
 import { dbConnect } from "#configs/dbConfig";
-import sequelize from "#root/sequelize";
+import sequelize from "#configs/sequelizeConfig";
 import app from "#root/app";
 import env from "#utils/env";
 import { initialize } from "#utils/helpers";

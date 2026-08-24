@@ -1,7 +1,7 @@
 // src/config/db.config.js
 import chalk from "chalk";
 import { createDatabaseIfNotExists } from "#utils/helpers";
-import sequelize from "#root/sequelize";
+import sequelize from "#configs/sequelizeConfig";
 
 // Main database connection function
 export async function dbConnect() {

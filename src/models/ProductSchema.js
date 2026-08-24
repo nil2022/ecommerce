@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "#root/sequelize"; 
+import sequelize from "#configs/sequelizeConfig"; 
 import Category from "#models/CategorySchema";
 
 const Product = sequelize.define(

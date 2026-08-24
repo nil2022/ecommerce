@@ -8,7 +8,7 @@ import User from "#models/UserSchema";
 import Cart from "#models/CartSchema";
 import mysql from "mysql2/promise";
 import env from "#utils/env";
-import sequelize from "#root/sequelize";
+import sequelize from "#configs/sequelizeConfig";
 import sendResponse from "#utils/response";
 
 /**Function to store error in error log file */
@@ -287,13 +287,14 @@ export async function createDatabaseIfNotExists() {
             console.log(
                 chalk.bgGreenBright.white("\nDatabase tables synchronized !!\n")
             );
-        } else {
-            console.log(
-                chalk.bgYellowBright.bold(
-                    `Database '${env.DB_NAME}' already exists.`
-                )
-            );
-        }
+        } 
+        // else {
+        //     console.log(
+        //         chalk.bgYellowBright.bold(
+        //             `Database '${env.DB_NAME}' already exists.`
+        //         )
+        //     );
+        // }
     } catch (error) {
         console.error("Error checking/creating database:", error);
         throw error;
